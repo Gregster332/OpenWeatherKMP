@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 version = "1.0"
@@ -34,6 +35,7 @@ kotlin {
                 api("dev.icerock.moko:mvvm-livedata:0.11.0") // api mvvm-core, LiveData and extensions
                 api("dev.icerock.moko:mvvm-state:0.11.0") // api mvvm-livedata, ResourceState class and extensions
                 api("dev.icerock.moko:resources:0.17.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
             }
         }
         val commonTest by getting {
