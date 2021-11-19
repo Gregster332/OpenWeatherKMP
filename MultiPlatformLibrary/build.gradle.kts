@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+val ktorVersion = "1.6.0"
+val coroutineVersion = "1.4.3"
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -36,6 +39,8 @@ kotlin {
                 api("dev.icerock.moko:mvvm-state:0.11.0") // api mvvm-livedata, ResourceState class and extensions
                 api("dev.icerock.moko:resources:0.17.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation(
+                    "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
             }
         }
         val commonTest by getting {
@@ -51,6 +56,8 @@ kotlin {
                 api("dev.icerock.moko:mvvm-livedata-swiperefresh:0.11.0") // api mvvm-livedata, SwipeRefreshLayout library android extensions
                 api("dev.icerock.moko:mvvm-databinding:0.11.0") // api mvvm-livedata, DataBinding support for Android
                 api("dev.icerock.moko:mvvm-viewbinding:0.11.0") // api mvvm-livedata, ViewBinding support for Android
+                implementation(
+                    "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
             }
         }
         val androidTest by getting {
