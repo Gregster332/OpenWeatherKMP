@@ -7,13 +7,27 @@
 //
 
 import UIKit
+import MultiPlatformLibrary
+import MultiPlatformLibraryMvvm
 
 class DetailViewController: UIViewController {
-
+    
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var tempLabel: UILabel!
+    @IBOutlet private weak var DescLabel: UILabel!
+    
+    
+    var welcome: Welcome? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if welcome != nil {
+            cityLabel.text = welcome!.name
+            tempLabel.text = "Temperature: \(welcome!.main.temp)"
+            DescLabel.text = "Description: \(welcome!.weather[0].main)"
+        }
+        
     }
     
 

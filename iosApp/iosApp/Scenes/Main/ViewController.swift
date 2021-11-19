@@ -38,6 +38,8 @@ class ViewController: UIViewController {
                 self.cityArray.append(result)
             }
         }
+        viewModel.onCleared()
+        view.endEditing(true)
         tableView.reloadData()
     }
     
@@ -68,6 +70,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let sb = UIStoryboard(name: "ViewController", bundle: nil)
         let controller = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        controller.welcome = cityArray[indexPath.row]
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

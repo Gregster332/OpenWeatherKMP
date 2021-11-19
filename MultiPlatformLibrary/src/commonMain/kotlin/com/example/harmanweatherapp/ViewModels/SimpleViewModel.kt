@@ -47,11 +47,4 @@ class SimpleViewModel() : ViewModel() {
         }
     }
 
-    private val initialWelcome = Welcome(coord = Coord(0.0, 0.0),
-        name = "NONE",
-        main = Main(0.0, 0.0, 0.0, 0.0, 0L, 0L),
-        sys = Sys(0L, 0L),
-        weather = listOf(Weather(0L, "", "", ""))
-    )
-
 }
