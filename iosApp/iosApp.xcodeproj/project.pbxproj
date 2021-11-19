@@ -12,6 +12,9 @@
 		222F145B27466D1100DF8D4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222F145A27466D1100DF8D4A /* SceneDelegate.swift */; };
 		222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222F145E27466DFB00DF8D4A /* ViewController.swift */; };
 		939375E9E3BF4E356CEC4150 /* libPods-iosApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */; };
+		D053EA672747A10500D6FA29 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA652747A10500D6FA29 /* CityCell.swift */; };
+		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
+		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		975469901181E61DA855F4A8 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iosApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE5FD14B374614B8C85BE015 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
+		D053EA652747A10500D6FA29 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
+		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
+		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +78,7 @@
 				222F145627466CA400DF8D4A /* ViewController.storyboard */,
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
-				222F145E27466DFB00DF8D4A /* ViewController.swift */,
+				D053EA6227479CF500D6FA29 /* Scenes */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -83,6 +89,41 @@
 				A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D053EA6227479CF500D6FA29 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D053EA6B2747E39A00D6FA29 /* Detail */,
+				D053EA6327479CFC00D6FA29 /* Main */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		D053EA6327479CFC00D6FA29 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				D053EA642747A0E900D6FA29 /* Cell */,
+				222F145E27466DFB00DF8D4A /* ViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		D053EA642747A0E900D6FA29 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D053EA652747A10500D6FA29 /* CityCell.swift */,
+				D053EA662747A10500D6FA29 /* CityCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D053EA6B2747E39A00D6FA29 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +186,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D053EA682747A10500D6FA29 /* CityCell.xib in Resources */,
 				222F145727466CA400DF8D4A /* ViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +225,8 @@
 			files = (
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
+				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,
+				D053EA672747A10500D6FA29 /* CityCell.swift in Sources */,
 				222F145B27466D1100DF8D4A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,7 +354,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE5FD14B374614B8C85BE015 /* Pods-iosApp.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = Media;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -333,7 +379,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 975469901181E61DA855F4A8 /* Pods-iosApp.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = Media;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
 				CODE_SIGN_STYLE = Automatic;
