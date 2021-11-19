@@ -41,6 +41,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
                 implementation(
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
             }
         }
         val commonTest by getting {
@@ -58,6 +59,7 @@ kotlin {
                 api("dev.icerock.moko:mvvm-viewbinding:0.11.0") // api mvvm-livedata, ViewBinding support for Android
                 implementation(
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
             }
         }
         val androidTest by getting {
