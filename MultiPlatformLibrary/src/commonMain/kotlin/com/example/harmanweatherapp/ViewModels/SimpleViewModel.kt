@@ -32,7 +32,7 @@ class SimpleViewModel() : ViewModel() {
         }
     }
 
-    fun getCityByName(name: String, callback: (Welcome?) -> Unit) {
+    private fun getCityByName(name: String, callback: (Welcome?) -> Unit) {
         MainScope().launch {
             networkService.getDataByCityName(name, callback = { result ->
                 if (result != null) {
