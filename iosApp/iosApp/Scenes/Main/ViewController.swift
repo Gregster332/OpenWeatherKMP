@@ -17,9 +17,6 @@ class ViewController: UIViewController {
         
         viewModel = SimpleViewModel()
         tableViewRegister()
-       
-        
-        //counterLabel.bindText(liveData: viewModel.counter)
     }
     
     private func tableViewRegister() {
@@ -28,8 +25,6 @@ class ViewController: UIViewController {
         tableView.register(UINib(nibName: "CityCell", bundle: nil), forCellReuseIdentifier: "CityCell")
 
     }
-    
-    
     
     @IBAction func onCounterButtonPressed() {
         tapBTN(name: textField.text!) { result in
