@@ -35,6 +35,13 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("name", item.name)
             intent.putExtra("desc", item.weather[0].main)
             intent.putExtra("temp", item.main.temp.toString())
+            intent.putExtra("hum", item.main.humidity.toString())
+            intent.putExtra("pres", item.main.pressure.toString())
+            intent.putExtra("sunset", item.sys.sunset.toString())
+            intent.putExtra("sunrise", item.sys.sunrise.toString())
+            intent.putExtra("max", item.main.tempMax.toString())
+            intent.putExtra("min", item.main.tempMin.toString())
+            intent.putExtra("fl", item.main.feelsLike.toString())
             startActivity(intent)
         }
 
