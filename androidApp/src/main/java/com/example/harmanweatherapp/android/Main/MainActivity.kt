@@ -12,7 +12,7 @@ import com.example.harmanweatherapp.android.R
 class MainActivity : AppCompatActivity() {
 
     //var list: ListView? = null
-    val items: ArrayList<Welcome> = arrayListOf()
+    var items: ArrayList<Welcome> = arrayListOf()
     var adapter: ListAdapter? = null
 
     private val viewModel = SimpleViewModel()
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
 
-
+        //items = viewModel.fetchAllCities()
         adapter = ListAdapter(this, items)
         list.adapter = adapter
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         imageView.setOnClickListener {
             var currentName = ""
-            viewModel.onCounterButtonPressed(editText.text.toString())
+            viewModel.addCityToDB(editText.text.toString())
             print(viewModel.counter.value)
             if (viewModel.counter.value.name != "NONE" &&
                 viewModel.counter.value.name != currentName &&

@@ -8,6 +8,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     kotlin("plugin.serialization") version "1.5.31"
+    id("io.realm.kotlin") version "0.7.0"
 }
 
 version = "1.0"
@@ -42,6 +43,7 @@ kotlin {
                 implementation(
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.realm.kotlin:library-base:0.7.0")
             }
         }
         val commonTest by getting {

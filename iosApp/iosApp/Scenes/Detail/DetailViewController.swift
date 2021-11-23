@@ -20,19 +20,19 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var sunrise: UILabel!
     @IBOutlet private weak var sunset: UILabel!
     
-    var welcome: Welcome? = nil
+    var welcome: RealmCityModel? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if welcome != nil {
             cityLabel.text = welcome!.name
-            tempLabel.text = "Temperature: \(welcome!.main.temp)"
-            DescLabel.text = "Description: \(welcome!.weather[0].main)"
-            pressure.text = "\(welcome!.main.pressure)hPh"
-            humidity.text = "\(welcome!.main.humidity)%"
-            sunrise.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sys.sunrise)).timeIn24HourFormat())"
-            sunset.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sys.sunset)).timeIn24HourFormat())"
+            tempLabel.text = "Temperature: \(Int(welcome!.temp - 273))ºC"
+            DescLabel.text = "Description: \(welcome!.main)"
+            pressure.text = "\(welcome!.pressure)hPh"
+            humidity.text = "\(welcome!.humidity)%"
+            sunrise.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunrise)).timeIn24HourFormat())"
+            sunset.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunset)).timeIn24HourFormat())"
         }
         
         

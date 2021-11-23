@@ -4,12 +4,12 @@ import MultiPlatformLibraryMvvm
 
 class ViewController: UIViewController {
 
-    @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
+    private let refreshControl = UIRefreshControl()
     
     private var viewModel: SimpleViewModel!
-    private var cityArray: [Welcome] = []
+    private var cityArray: [RealmCityModel] = []
     
     
     override func viewDidLoad() {
@@ -17,33 +17,39 @@ class ViewController: UIViewController {
         
         viewModel = SimpleViewModel()
         tableViewRegister()
+        cityArray = viewModel.fetchAllCities()
     }
     
     private func tableViewRegister() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "CityCell", bundle: nil), forCellReuseIdentifier: "CityCell")
+        //tableView.refreshControl = refreshControl
+        //refreshControl.addTarget(self, action: #selector(refreshWeather), for: .valueChanged)
 
     }
     
     @IBAction func onCounterButtonPressed() {
-        tapBTN(name: textField.text!) { result in
-            if result.name != "NONE" {
-                
-                self.cityArray.append(result)
-            }
-        }
-        viewModel.onCleared()
+        viewModel.addCityToDB(name: textField.text!)
+         cityArray = viewModel.fetchAllCities()
+        //viewModel.onCleared()
         view.endEditing(true)
+        textField.text = ""
         tableView.reloadData()
     }
     
-    func tapBTN(name: String, completion: @escaping (Welcome) -> ()) {
-        viewModel.onCounterButtonPressed(name: name)
-        if viewModel.counter.value != nil {
-            completion(viewModel.counter.value!)
-        }
+    @IBAction func deleteAllCities() {
+        viewModel.deleteAllCities()
+        cityArray = viewModel.fetchAllCities()
+        tableView.reloadData()
     }
+    
+//    @objc private func refreshWeather() {
+//        viewModel.refreshWeather()
+//        cityArray = viewModel.fetchAllCities()
+//        refreshControl.endRefreshing()
+//        tableView.reloadData()
+//    }
     
     override func didMove(toParent parent: UIViewController?) {
         if(parent == nil) { viewModel.onCleared() }

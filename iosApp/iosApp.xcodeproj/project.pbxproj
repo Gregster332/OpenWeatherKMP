@@ -16,6 +16,7 @@
 		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
 		D053EA77274BA15F00D6FA29 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA76274BA15F00D6FA29 /* Date+Extension.swift */; };
+		D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA79274D40C100D6FA29 /* Emojis.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D053EA76274BA15F00D6FA29 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D053EA79274D40C100D6FA29 /* Emojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emojis.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				222F145627466CA400DF8D4A /* ViewController.storyboard */,
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
+				D053EA78274D409D00D6FA29 /* Constants */,
 				D053EA75274BA14D00D6FA29 /* Extensions */,
 				D053EA6227479CF500D6FA29 /* Scenes */,
 			);
@@ -135,6 +138,14 @@
 				D053EA76274BA15F00D6FA29 /* Date+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D053EA78274D409D00D6FA29 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D053EA79274D40C100D6FA29 /* Emojis.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */,
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,

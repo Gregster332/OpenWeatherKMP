@@ -2,10 +2,13 @@ package com.example.harmanweatherapp.ViewModels
 
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.Services.NetworkService
+import com.example.harmanweatherapp.Services.RealmService
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.map
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import io.ktor.util.reflect.*
+import io.realm.objects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
@@ -21,14 +24,45 @@ class SimpleViewModel() : ViewModel() {
     val counter: LiveData<Welcome> = _counter
 
     val networkService = NetworkService.instance
+    val realm = RealmService.instance
 
-    val cities = listOf("Moscow", "Samara", "Huston", "Arizona", "Ufa")
+//    fun onCounterButtonPressed(name: String) {
+//        getCityByName(name = name) {
+//            val current = _counter.value
+//            _counter.value = it!!
+//            //print(_counter.value)
+//        }
+  //  }
 
-    fun onCounterButtonPressed(name: String) {
+    fun fetchAllCities(): List<RealmCityModel> {
+        return realm.realm.objects(RealmCityModel::class).sortedBy { it.name }
+    }
+
+    fun deleteAllCities() {
+        realm.deleteAllCities()
+    }
+
+    fun refreshWeather() {
+        val cityList = fetchAllCities()
+        cityList.forEach { item ->
+            realm.deleteCity(item.name)
+            addCityToDB(item.name)
+        }
+    }
+
+    fun addCityToDB(name: String) {
         getCityByName(name = name) {
-            val current = _counter.value
-            _counter.value = it!!
-            //print(_counter.value)
+            if (it != null) {
+                val current = _counter.value
+                _counter.value = it
+                MainScope().launch {
+                    if (_counter.value.name != "NONE" && current.name != it.name) {
+                        realm.addCityToDB(convertFromWelcomeToRealmClass(_counter.value))
+                    }
+                }
+            } else {
+                print("error")
+            }
         }
     }
 
@@ -37,7 +71,7 @@ class SimpleViewModel() : ViewModel() {
             networkService.getDataByCityName(name, callback = { result ->
                 if (result != null) {
                     print(result)
-                    callback(result)
+                    callback.invoke(result)
                 }
             }, failure = { error ->
                 if (error != null) {
@@ -45,6 +79,23 @@ class SimpleViewModel() : ViewModel() {
                 }
             })
         }
+    }
+
+    private fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {
+        val city = RealmCityModel()
+        city.name = welcome.name
+        city.main = welcome.weather[0].main
+        city.temp = welcome.main.temp
+        city.tempMax = welcome.main.tempMax
+        city.tempMin = welcome.main.tempMin
+        city.feelsLike = welcome.main.feelsLike
+        city.humidity = welcome.main.humidity
+        city.pressure = welcome.main.pressure
+        city.sunrise = welcome.sys.sunrise
+        city.sunset = welcome.sys.sunset
+        city.lon = welcome.coord.lon
+        city.lat = welcome.coord.lat
+        return city
     }
 
 }

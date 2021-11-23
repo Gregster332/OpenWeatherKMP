@@ -11,9 +11,10 @@ import MultiPlatformLibrary
 
 class CityCell: UITableViewCell {
     
-    @IBOutlet weak var cityName: UILabel!
-    @IBOutlet weak var descLabel: UILabel!
-    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet private weak var cityName: UILabel!
+    @IBOutlet private weak var descLabel: UILabel!
+    @IBOutlet private weak var tempLabel: UILabel!
+    @IBOutlet private weak var emoji: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,10 +24,11 @@ class CityCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setCellContent(data: Welcome) {
+    func setCellContent(data: RealmCityModel) {
         cityName.text = data.name
-        descLabel.text = data.weather[0].main
-        tempLabel.text = "Temperature: \(data.main.temp)"
+        descLabel.text = data.main
+        tempLabel.text = "Temperature: \(Int(data.temp - 273))ºC"
+        emoji.text = emojis[data.main]
     }
     
 }
