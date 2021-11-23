@@ -17,10 +17,16 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        var tv: TextView = findViewById(R.id.textName)
+        var tv1: TextView = findViewById(R.id.cityName)
+        var tv2: TextView = findViewById(R.id.description)
+        var tv3: TextView = findViewById(R.id.temperatureText)
         var button = findViewById<Button>(R.id.back)
-        val b = intent.getStringExtra("welcome")
-        tv.text = b
+        val name = intent.getStringExtra("name")
+        val desc = intent.getStringExtra("desc")
+        val temp = intent.getStringExtra("temp")
+        tv1.text = name
+        tv2.text = desc
+        tv3.text = temp
 
         button.setOnClickListener {
             finish()

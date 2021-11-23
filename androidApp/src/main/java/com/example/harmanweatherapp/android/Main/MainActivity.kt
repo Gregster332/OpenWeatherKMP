@@ -32,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         list.setOnItemClickListener { parent, view, position, id ->
             val item = items.get(position)
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("welcome", item.name)
+            intent.putExtra("name", item.name)
+            intent.putExtra("desc", item.weather[0].main)
+            intent.putExtra("temp", item.main.temp.toString())
             startActivity(intent)
         }
 
