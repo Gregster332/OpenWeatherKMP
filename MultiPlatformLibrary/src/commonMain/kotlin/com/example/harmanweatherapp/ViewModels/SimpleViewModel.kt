@@ -61,8 +61,8 @@ class SimpleViewModel() : ViewModel() {
         getCityByName(name = name) {
             if (it != null) {
                 MainScope().launch {
-                    if (_counter.value.name != "NONE" ) {
-                        realm.addCityToDB(convertFromWelcomeToRealmClass(_counter.value))
+                    if (counter.value.name != "NONE" ) {
+                        realm.addCityToDB(convertFromWelcomeToRealmClass(counter.value))
                     }
                 }
             } else {
@@ -75,7 +75,7 @@ class SimpleViewModel() : ViewModel() {
         MainScope().launch {
             networkService.getDataByCityName(name, callback = { result ->
                 if (result != null) {
-                    _counter.setValue(result, true)
+                    _counter.postValue(result)
                     callback.invoke(result)
                 }
             }, failure = { error ->

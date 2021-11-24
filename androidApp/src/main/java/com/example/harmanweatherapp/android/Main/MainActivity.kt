@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     var adapter: ListAdapter? = null
 
     private val viewModel = SimpleViewModel()
+    private var current = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         var list: ListView = findViewById(R.id.listview)
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
+        var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
 
         items = convert()
         adapter = ListAdapter(this, items)
@@ -34,14 +36,14 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("name", item.name)
             intent.putExtra("desc", item.weather[0].main)
-            intent.putExtra("temp", item.main.temp.toString())
+            intent.putExtra("temp", (item.main.temp - 273).toInt().toString())
             intent.putExtra("hum", item.main.humidity.toString())
             intent.putExtra("pres", item.main.pressure.toString())
             intent.putExtra("sunset", item.sys.sunset.toString())
             intent.putExtra("sunrise", item.sys.sunrise.toString())
-            intent.putExtra("max", item.main.tempMax.toString())
-            intent.putExtra("min", item.main.tempMin.toString())
-            intent.putExtra("fl", item.main.feelsLike.toString())
+            intent.putExtra("max", (item.main.tempMax - 273).toInt().toString())
+            intent.putExtra("min", (item.main.tempMin - 273).toInt().toString())
+            intent.putExtra("fl", (item.main.feelsLike - 273).toInt().toString())
             startActivity(intent)
         }
 
@@ -50,26 +52,43 @@ class MainActivity : AppCompatActivity() {
             val t = Toast.makeText(applicationContext, "${item.name} deleted", Toast.LENGTH_SHORT)
             t.show()
             viewModel.deleteCity(item.name)
-            items = convert()
+            //viewModel.addCityToDB(item.name)
+            items.removeAt(position)
             //print(items.get(0))
+            adapter!!.notifyDataSetChanged()
             list.adapter = adapter
             true
         }
 
         imageView.setOnClickListener {
-            var currentName = ""
-            viewModel.addCityToDB(editText.text.toString())
-            print(viewModel.counter.value)
-            if (viewModel.counter.value.name != "NONE" &&
-                viewModel.counter.value.name != currentName &&
-                    !editText.text.isEmpty()) {
-                items.add(viewModel.counter.value)
-                currentName = viewModel.counter.value.name
-                list.adapter = adapter
-                editText.setText("")
+            //print(viewModel.counter.value.name)
+            if (viewModel.counter.value.name != current || viewModel.counter.value.name != "NONE") {
+                viewModel.addCityToDB(editText.text.toString())
+                if (viewModel.counter.value.name != "NONE" &&
+                    viewModel.counter.value.name != current &&
+                    !editText.text.isEmpty()
+                ) {
+
+                    items.add(viewModel.counter.value)
+//                if (viewModel.counter.value.name == viewModel.fetchAllCities().sortedBy { it.name }.last().name) {
+//                   viewModel.deleteCity(viewModel.fetchAllCities().last().name)
+//                }
+                    current = viewModel.counter.value.name
+                    list.adapter = adapter
+                    editText.setText("")
+                } else {
+                    print("Error")
+                }
             } else {
-                print("Error")
+                print("dhfdh")
             }
+        }
+
+        deleteAllImageView.setOnClickListener {
+            viewModel.deleteAllCities()
+            items.clear()
+            adapter!!.notifyDataSetChanged()
+            list.adapter = adapter
         }
     }
 
@@ -79,6 +98,15 @@ class MainActivity : AppCompatActivity() {
         list.forEach {
             arrayList.add(viewModel.fromRealmCityModelToWelcome(it))
         }
+//        if (!arrayList.isEmpty()) {
+//            for (city in arrayList.indices - 1) {
+//                for (index in arrayList.indices - 1) {
+//                    if (arrayList[index].name == arrayList[index + 1].name) {
+//                        arrayList.removeAt(index)
+//                    }
+//                }
+//            }
+//        }
         return arrayList
     }
 
