@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import com.example.harmanweatherapp.Models.Welcome
+import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
 import com.example.harmanweatherapp.android.R
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
 
-        //items = viewModel.fetchAllCities()
+        items = convert()
         adapter = ListAdapter(this, items)
         list.adapter = adapter
 
@@ -45,6 +45,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        list.setOnItemLongClickListener { parent, view, position, id ->
+            val item = items.get(position)
+            val t = Toast.makeText(applicationContext, "${item.name} deleted", Toast.LENGTH_SHORT)
+            t.show()
+            viewModel.deleteCity(item.name)
+            items = convert()
+            //print(items.get(0))
+            list.adapter = adapter
+            true
+        }
+
         imageView.setOnClickListener {
             var currentName = ""
             viewModel.addCityToDB(editText.text.toString())
@@ -61,4 +72,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun convert(): ArrayList<Welcome> {
+        var arrayList: ArrayList<Welcome> = arrayListOf()
+        var list = viewModel.fetchAllCities()
+        list.forEach {
+            arrayList.add(viewModel.fromRealmCityModelToWelcome(it))
+        }
+        return arrayList
+    }
+
 }

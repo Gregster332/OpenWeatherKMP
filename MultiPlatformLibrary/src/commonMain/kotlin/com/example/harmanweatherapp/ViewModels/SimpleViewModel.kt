@@ -6,6 +6,7 @@ import com.example.harmanweatherapp.Services.RealmService
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.map
+import dev.icerock.moko.mvvm.livedata.setValue
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.util.reflect.*
 import io.realm.objects
@@ -41,11 +42,17 @@ class SimpleViewModel() : ViewModel() {
     fun deleteAllCities() {
         realm.deleteAllCities()
     }
+    
+    fun deleteCity(name: String) {
+        realm.deleteCity(name)
+    }
 
     fun refreshWeather() {
         val cityList = fetchAllCities()
         cityList.forEach { item ->
             realm.deleteCity(item.name)
+        }
+        cityList.forEach { item ->
             addCityToDB(item.name)
         }
     }
@@ -53,10 +60,8 @@ class SimpleViewModel() : ViewModel() {
     fun addCityToDB(name: String) {
         getCityByName(name = name) {
             if (it != null) {
-                val current = _counter.value
-                _counter.value = it
                 MainScope().launch {
-                    if (_counter.value.name != "NONE" && current.name != it.name) {
+                    if (_counter.value.name != "NONE" ) {
                         realm.addCityToDB(convertFromWelcomeToRealmClass(_counter.value))
                     }
                 }
@@ -70,7 +75,7 @@ class SimpleViewModel() : ViewModel() {
         MainScope().launch {
             networkService.getDataByCityName(name, callback = { result ->
                 if (result != null) {
-                    print(result)
+                    _counter.setValue(result, true)
                     callback.invoke(result)
                 }
             }, failure = { error ->
@@ -96,6 +101,16 @@ class SimpleViewModel() : ViewModel() {
         city.lon = welcome.coord.lon
         city.lat = welcome.coord.lat
         return city
+    }
+
+    fun fromRealmCityModelToWelcome(city: RealmCityModel): Welcome {
+        var welcome = Welcome(name = city.name,
+            coord = Coord(city.lon, city.lat),
+            sys = Sys(city.sunrise, city.sunset),
+            main = Main(city.temp, city.feelsLike, city.tempMin, city.tempMax, city.pressure, city.humidity),
+            weather = listOf(Weather(0L, city.main, "", ""))
+            )
+        return welcome
     }
 
 }

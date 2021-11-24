@@ -75,5 +75,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        viewModel.deleteCity(name: cityArray[indexPath.row].name)
+        cityArray = viewModel.fetchAllCities()
+        tableView.reloadData()
+    }
     
 }
