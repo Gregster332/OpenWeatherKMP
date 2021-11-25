@@ -1,8 +1,13 @@
 package com.example.harmanweatherapp.android.Main
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
@@ -26,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
+        var dialog = Dialog(this)
+        //lateinit var dialogButton: Button
+        dialog.setCanceledOnTouchOutside(true)
 
         items = convert()
         adapter = ListAdapter(this, items)
@@ -52,16 +60,13 @@ class MainActivity : AppCompatActivity() {
             val t = Toast.makeText(applicationContext, "${item.name} deleted", Toast.LENGTH_SHORT)
             t.show()
             viewModel.deleteCity(item.name)
-            //viewModel.addCityToDB(item.name)
             items.removeAt(position)
-            //print(items.get(0))
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
             true
         }
 
         imageView.setOnClickListener {
-            //print(viewModel.counter.value.name)
             if (viewModel.counter.value.name != current || viewModel.counter.value.name != "NONE") {
                 viewModel.addCityToDB(editText.text.toString())
                 if (viewModel.counter.value.name != "NONE" &&
@@ -70,17 +75,19 @@ class MainActivity : AppCompatActivity() {
                 ) {
 
                     items.add(viewModel.counter.value)
-//                if (viewModel.counter.value.name == viewModel.fetchAllCities().sortedBy { it.name }.last().name) {
-//                   viewModel.deleteCity(viewModel.fetchAllCities().last().name)
-//                }
                     current = viewModel.counter.value.name
                     list.adapter = adapter
                     editText.setText("")
                 } else {
-                    print("Error")
+                    dialog.setContentView(R.layout.popup)
+                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog.show()
+
                 }
             } else {
-                print("dhfdh")
+                dialog.setContentView(R.layout.popup)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
             }
         }
 
@@ -90,24 +97,14 @@ class MainActivity : AppCompatActivity() {
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
         }
-    }
 
+    }
     private fun convert(): ArrayList<Welcome> {
         var arrayList: ArrayList<Welcome> = arrayListOf()
         var list = viewModel.fetchAllCities()
         list.forEach {
             arrayList.add(viewModel.fromRealmCityModelToWelcome(it))
         }
-//        if (!arrayList.isEmpty()) {
-//            for (city in arrayList.indices - 1) {
-//                for (index in arrayList.indices - 1) {
-//                    if (arrayList[index].name == arrayList[index + 1].name) {
-//                        arrayList.removeAt(index)
-//                    }
-//                }
-//            }
-//        }
         return arrayList
     }
-
 }

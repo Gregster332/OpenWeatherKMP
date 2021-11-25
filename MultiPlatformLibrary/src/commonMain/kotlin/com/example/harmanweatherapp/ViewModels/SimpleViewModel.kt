@@ -82,7 +82,7 @@ class SimpleViewModel() : ViewModel() {
                 }
             }, failure = { error ->
                 if (error != null) {
-                    _error.setValue(true, true)
+                    _error.postValue(true)
                 }
             })
         }
