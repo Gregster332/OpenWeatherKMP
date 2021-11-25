@@ -12,6 +12,10 @@
 		222F145B27466D1100DF8D4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222F145A27466D1100DF8D4A /* SceneDelegate.swift */; };
 		222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222F145E27466DFB00DF8D4A /* ViewController.swift */; };
 		939375E9E3BF4E356CEC4150 /* libPods-iosApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */; };
+		D042FF67274F91220023D338 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF66274F91220023D338 /* PresentationController.swift */; };
+		D042FF69274F95510023D338 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D042FF68274F95510023D338 /* OverlayView.xib */; };
+		D042FF6D274F98880023D338 /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF6C274F98880023D338 /* OverlayView.swift */; };
+		D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D042FF6E274F9AFD0023D338 /* sviaz.jpg */; };
 		D053EA672747A10500D6FA29 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA652747A10500D6FA29 /* CityCell.swift */; };
 		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
@@ -29,6 +33,10 @@
 		975469901181E61DA855F4A8 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iosApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE5FD14B374614B8C85BE015 /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
+		D042FF66274F91220023D338 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
+		D042FF68274F95510023D338 /* OverlayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
+		D042FF6C274F98880023D338 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
+		D042FF6E274F9AFD0023D338 /* sviaz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sviaz.jpg; sourceTree = "<group>"; };
 		D053EA652747A10500D6FA29 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				7555FF8C242A565B00829871 /* Info.plist */,
+				D042FF6E274F9AFD0023D338 /* sviaz.jpg */,
 				222F145627466CA400DF8D4A /* ViewController.storyboard */,
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
@@ -111,6 +120,9 @@
 			children = (
 				D053EA642747A0E900D6FA29 /* Cell */,
 				222F145E27466DFB00DF8D4A /* ViewController.swift */,
+				D042FF66274F91220023D338 /* PresentationController.swift */,
+				D042FF68274F95510023D338 /* OverlayView.xib */,
+				D042FF6C274F98880023D338 /* OverlayView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -208,7 +220,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */,
 				D053EA682747A10500D6FA29 /* CityCell.xib in Resources */,
+				D042FF69274F95510023D338 /* OverlayView.xib in Resources */,
 				222F145727466CA400DF8D4A /* ViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D042FF6D274F98880023D338 /* OverlayView.swift in Sources */,
 				D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */,
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
@@ -252,6 +267,7 @@
 				D053EA672747A10500D6FA29 /* CityCell.swift in Sources */,
 				222F145B27466D1100DF8D4A /* SceneDelegate.swift in Sources */,
 				D053EA77274BA15F00D6FA29 /* Date+Extension.swift in Sources */,
+				D042FF67274F91220023D338 /* PresentationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

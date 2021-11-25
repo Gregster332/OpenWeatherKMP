@@ -23,6 +23,8 @@ class SimpleViewModel() : ViewModel() {
         weather = listOf(Weather(0L, "", "", ""))
     ))
     val counter: LiveData<Welcome> = _counter
+    private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
+    val error: LiveData<Boolean> = _error
 
     val networkService = NetworkService.instance
     val realm = RealmService.instance
@@ -66,7 +68,7 @@ class SimpleViewModel() : ViewModel() {
                     }
                 }
             } else {
-                print("error")
+                _error.setValue(true, true)
             }
         }
     }
@@ -80,7 +82,7 @@ class SimpleViewModel() : ViewModel() {
                 }
             }, failure = { error ->
                 if (error != null) {
-                    print(error.message)
+                    _error.setValue(true, true)
                 }
             })
         }
@@ -111,6 +113,10 @@ class SimpleViewModel() : ViewModel() {
             weather = listOf(Weather(0L, city.main, "", ""))
             )
         return welcome
+    }
+
+    fun doErrorFalse() {
+        _error.setValue(false, true)
     }
 
 }

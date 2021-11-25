@@ -32,7 +32,9 @@ class ViewController: UIViewController {
     @IBAction func onCounterButtonPressed() {
         viewModel.addCityToDB(name: textField.text!)
          cityArray = viewModel.fetchAllCities()
-        //viewModel.onCleared()
+        if (viewModel.error.value == true) {
+            showMiracle()
+        }
         view.endEditing(true)
         textField.text = ""
         tableView.reloadData()
@@ -50,6 +52,14 @@ class ViewController: UIViewController {
 //        refreshControl.endRefreshing()
 //        tableView.reloadData()
 //    }
+    
+    @objc func showMiracle() {
+        let slideVC = OverlayView()
+        slideVC.viewModel = viewModel
+        slideVC.modalPresentationStyle = .custom
+        slideVC.transitioningDelegate = self
+        self.present(slideVC, animated: true, completion: nil)
+    }
     
     override func didMove(toParent parent: UIViewController?) {
         if(parent == nil) { viewModel.onCleared() }
@@ -85,4 +95,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadData()
     }
     
+}
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        PresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
