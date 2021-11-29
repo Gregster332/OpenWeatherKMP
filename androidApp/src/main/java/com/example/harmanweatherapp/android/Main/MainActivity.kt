@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         var imageView: ImageView = findViewById(R.id.add)
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
         var dialog = Dialog(this)
-        //lateinit var dialogButton: Button
+        var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
         dialog.setCanceledOnTouchOutside(true)
 
         items = convert()
@@ -61,9 +62,9 @@ class MainActivity : AppCompatActivity() {
             t.show()
             viewModel.deleteCity(item.name)
             items.removeAt(position)
-            adapter!!.notifyDataSetChanged()
+            //adapter!!.notifyDataSetChanged()
             list.adapter = adapter
-            true
+            false
         }
 
         imageView.setOnClickListener {
@@ -96,6 +97,18 @@ class MainActivity : AppCompatActivity() {
             items.clear()
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
+        }
+
+        refreshLayout.setOnRefreshListener {
+            if (items.isEmpty()) {
+                items.addAll(convert())
+                adapter!!.notifyDataSetChanged()
+            } else {
+                items.clear()
+                viewModel.refreshCities()
+            }
+            list.adapter = adapter
+            refreshLayout.isRefreshing = false
         }
 
     }

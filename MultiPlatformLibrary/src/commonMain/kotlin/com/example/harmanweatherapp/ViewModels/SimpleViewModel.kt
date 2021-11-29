@@ -29,14 +29,6 @@ class SimpleViewModel() : ViewModel() {
     val networkService = NetworkService.instance
     val realm = RealmService.instance
 
-//    fun onCounterButtonPressed(name: String) {
-//        getCityByName(name = name) {
-//            val current = _counter.value
-//            _counter.value = it!!
-//            //print(_counter.value)
-//        }
-  //  }
-
     fun fetchAllCities(): List<RealmCityModel> {
         return realm.realm.objects(RealmCityModel::class).sortedBy { it.name }
     }
@@ -49,20 +41,10 @@ class SimpleViewModel() : ViewModel() {
         realm.deleteCity(name)
     }
 
-    fun refreshWeather() {
-        val cityList = fetchAllCities()
-        cityList.forEach { item ->
-            realm.deleteCity(item.name)
-        }
-        cityList.forEach { item ->
-            addCityToDB(item.name)
-        }
-    }
-
     fun addCityToDB(name: String) {
         getCityByName(name = name) {
             if (it != null) {
-                MainScope().launch {
+                viewModelScope.launch {
                     if (counter.value.name != "NONE" ) {
                         realm.addCityToDB(convertFromWelcomeToRealmClass(counter.value))
                     }
@@ -86,6 +68,32 @@ class SimpleViewModel() : ViewModel() {
                 }
             })
         }
+    }
+
+    fun refreshCities() {
+
+            val names: MutableList<String> = mutableListOf()
+            val results = fetchAllCities()
+            for (city in results) {
+                names.add(city.name)
+            }
+            deleteAllCities()
+        viewModelScope.launch {
+            for (name in names) {
+                getCityByName(name, callback = {
+                    if (it != null) {
+                        print(it)
+                        realm.addCityToDB(convertFromWelcomeToRealmClass(it))
+                    } else {
+                        _error.setValue(true, false)
+                    }
+                })
+            }
+        }
+    }
+
+    fun getCityByCoordinates() {
+
     }
 
     private fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {

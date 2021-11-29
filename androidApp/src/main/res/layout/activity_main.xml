@@ -20,7 +20,8 @@
             android:layout_centerInParent="true"
             android:background="#FFFFFF"
             android:ems="10"
-            android:hint="City name" />
+            android:hint="City name"
+            android:minHeight="48dp" />
 
         <ImageView
             android:id="@+id/add"
@@ -48,11 +49,25 @@
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/listview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/header"
-        tools:listitem="@layout/list_item" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            tools:listitem="@layout/list_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 </RelativeLayout>

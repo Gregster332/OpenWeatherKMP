@@ -16,6 +16,8 @@
 		D042FF69274F95510023D338 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D042FF68274F95510023D338 /* OverlayView.xib */; };
 		D042FF6D274F98880023D338 /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF6C274F98880023D338 /* OverlayView.swift */; };
 		D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D042FF6E274F9AFD0023D338 /* sviaz.jpg */; };
+		D042FF71275230400023D338 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF70275230400023D338 /* RefreshView.swift */; };
+		D042FF742754BAE20023D338 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF732754BAE20023D338 /* LocationManager.swift */; };
 		D053EA672747A10500D6FA29 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA652747A10500D6FA29 /* CityCell.swift */; };
 		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
@@ -37,6 +39,8 @@
 		D042FF68274F95510023D338 /* OverlayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverlayView.xib; sourceTree = "<group>"; };
 		D042FF6C274F98880023D338 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
 		D042FF6E274F9AFD0023D338 /* sviaz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sviaz.jpg; sourceTree = "<group>"; };
+		D042FF70275230400023D338 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
+		D042FF732754BAE20023D338 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D053EA652747A10500D6FA29 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 				222F145627466CA400DF8D4A /* ViewController.storyboard */,
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
+				D042FF722754BAD30023D338 /* Srvices */,
 				D053EA78274D409D00D6FA29 /* Constants */,
 				D053EA75274BA14D00D6FA29 /* Extensions */,
 				D053EA6227479CF500D6FA29 /* Scenes */,
@@ -104,6 +109,14 @@
 				A5F9E5F394A4F5FC72EE0EEF /* libPods-iosApp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D042FF722754BAD30023D338 /* Srvices */ = {
+			isa = PBXGroup;
+			children = (
+				D042FF732754BAE20023D338 /* LocationManager.swift */,
+			);
+			path = Srvices;
 			sourceTree = "<group>";
 		};
 		D053EA6227479CF500D6FA29 /* Scenes */ = {
@@ -120,6 +133,7 @@
 			children = (
 				D053EA642747A0E900D6FA29 /* Cell */,
 				222F145E27466DFB00DF8D4A /* ViewController.swift */,
+				D042FF70275230400023D338 /* RefreshView.swift */,
 				D042FF66274F91220023D338 /* PresentationController.swift */,
 				D042FF68274F95510023D338 /* OverlayView.xib */,
 				D042FF6C274F98880023D338 /* OverlayView.swift */,
@@ -262,9 +276,11 @@
 				D042FF6D274F98880023D338 /* OverlayView.swift in Sources */,
 				D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */,
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
+				D042FF742754BAE20023D338 /* LocationManager.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,
 				D053EA672747A10500D6FA29 /* CityCell.swift in Sources */,
+				D042FF71275230400023D338 /* RefreshView.swift in Sources */,
 				222F145B27466D1100DF8D4A /* SceneDelegate.swift in Sources */,
 				D053EA77274BA15F00D6FA29 /* Date+Extension.swift in Sources */,
 				D042FF67274F91220023D338 /* PresentationController.swift in Sources */,

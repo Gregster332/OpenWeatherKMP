@@ -31,4 +31,11 @@ class CityCell: UITableViewCell {
         emoji.text = emojis[data.main]
     }
     
+    func setContentFromLocation(data: Welcome) {
+        cityName.text = data.name
+        descLabel.text = data.weather[0].main
+        tempLabel.text = "Temperature: \(Int(data.main.temp - 273))ºC"
+        emoji.text = emojis[data.weather[0].main]
+    }
+    
 }
