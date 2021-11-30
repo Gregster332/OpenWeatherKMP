@@ -39,6 +39,7 @@ kotlin {
                 api("dev.icerock.moko:mvvm-livedata:0.11.0") // api mvvm-core, LiveData and extensions
                 api("dev.icerock.moko:mvvm-state:0.11.0") // api mvvm-livedata, ResourceState class and extensions
                 api("dev.icerock.moko:resources:0.17.2")
+                api("dev.icerock.moko:geo:0.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
                 implementation(
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")

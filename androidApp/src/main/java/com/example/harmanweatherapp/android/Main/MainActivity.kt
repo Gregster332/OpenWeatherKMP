@@ -34,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
         var dialog = Dialog(this)
         var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
+        var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
+        needToRefresh.visibility = View.GONE
 
         items = convert()
         adapter = ListAdapter(this, items)
@@ -68,44 +70,36 @@ class MainActivity : AppCompatActivity() {
         }
 
         imageView.setOnClickListener {
-            if (viewModel.counter.value.name != current || viewModel.counter.value.name != "NONE") {
-                viewModel.addCityToDB(editText.text.toString())
-                if (viewModel.counter.value.name != "NONE" &&
-                    viewModel.counter.value.name != current &&
-                    !editText.text.isEmpty()
-                ) {
 
-                    items.add(viewModel.counter.value)
-                    current = viewModel.counter.value.name
+                    viewModel.addCityToDB(editText.text.toString())
+                    items.addAll(convert())
+                    //current = viewModel.counter.value.name
                     list.adapter = adapter
                     editText.setText("")
-                } else {
-                    dialog.setContentView(R.layout.popup)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog.show()
+
+//                    dialog.setContentView(R.layout.popup)
+//                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                    dialog.show()
 
                 }
-            } else {
-                dialog.setContentView(R.layout.popup)
-                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog.show()
-            }
-        }
 
         deleteAllImageView.setOnClickListener {
             viewModel.deleteAllCities()
             items.clear()
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
+           // viewModel.getCityByCoordinates()
         }
 
         refreshLayout.setOnRefreshListener {
             if (items.isEmpty()) {
                 items.addAll(convert())
                 adapter!!.notifyDataSetChanged()
+                needToRefresh.visibility = View.GONE
             } else {
                 items.clear()
-                viewModel.refreshCities()
+                viewModel.refresh()
+                needToRefresh.visibility = View.VISIBLE
             }
             list.adapter = adapter
             refreshLayout.isRefreshing = false
@@ -114,7 +108,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun convert(): ArrayList<Welcome> {
         var arrayList: ArrayList<Welcome> = arrayListOf()
-        var list = viewModel.fetchAllCities()
+        viewModel.fetchAllCities()
+        var list = viewModel.cities
         list.forEach {
             arrayList.add(viewModel.fromRealmCityModelToWelcome(it))
         }

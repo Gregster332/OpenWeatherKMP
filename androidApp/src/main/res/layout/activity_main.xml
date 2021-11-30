@@ -68,6 +68,18 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/needToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:text="Need to refresh one more time"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/corner_radius"
+        android:layout_marginHorizontal="40dp"/>
+
 
 
 </RelativeLayout>

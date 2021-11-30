@@ -42,7 +42,6 @@ class OverlayView: UIViewController {
     }
     
     @objc func hideView(sender: UITapGestureRecognizer) {
-        viewModel.doErrorFalse()
         dismiss(animated: true, completion: nil)
     }
     
@@ -53,7 +52,6 @@ class OverlayView: UIViewController {
         if sender.state == .ended {
             let dragVelocity = sender.velocity(in: view)
             if dragVelocity.y >= 1300 {
-                viewModel.doErrorFalse()
                 self.dismiss(animated: true, completion: nil)
             } else {
                 UIView.animate(withDuration: 0.3) {

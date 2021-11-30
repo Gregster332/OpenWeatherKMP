@@ -9,17 +9,13 @@ class ViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
     
-    private var viewModel: SimpleViewModel!
-    private var cityArray: [RealmCityModel] = []
-    private var locationManager = LocationManager.shared
-    
+    var viewModel: SimpleViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel = SimpleViewModel()
+        viewModel = SimpleViewModel(eventsDispatcher: .init())
+        viewModel.fetchAllCities()
         tableViewRegister()
-        cityArray = viewModel.fetchAllCities()
     }
     
     private func tableViewRegister() {
@@ -68,66 +64,57 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onCounterButtonPressed() {
-        viewModel.addCityToDB(name: textField.text!)
-         cityArray = viewModel.fetchAllCities()
-        if (viewModel.error.value == true) {
-            showMiracle()
+        guard let text = textField.text else { return }
+        viewModel.checkAndAddNewCity(name: text) {
+            self.view.endEditing(true)
+            self.textField.text = ""
+            self.viewModel.fetchAllCities()
+            self.tableView.reloadData()
         }
-        view.endEditing(true)
-        textField.text = ""
-        tableView.reloadData()
     }
     
     @IBAction func deleteAllCities() {
-        viewModel.deleteAllCities()
-        cityArray = viewModel.fetchAllCities()
+        viewModel.realm.deleteAllCities()
+        viewModel.fetchAllCities()
         tableView.reloadData()
     }
     
     @objc private func refreshWeather() {
-        if !cityArray.isEmpty {
-            viewModel.refreshCities()
-            cityArray = viewModel.fetchAllCities()
-            createNeedToRefreshView(deleteViews: false)
-           //ind.showIndicator()
-        } else {
-            createNeedToRefreshView(deleteViews: true)
-            //ind.hideIndicator()
-            cityArray = viewModel.fetchAllCities()
-        }
-        refreshControl.endRefreshing()
-        tableView.reloadData()
+        viewModel.refresh()
+        update()
     }
     
-    @objc func showMiracle() {
-        let slideVC = OverlayView()
-        slideVC.viewModel = viewModel
-        slideVC.modalPresentationStyle = .custom
-        slideVC.transitioningDelegate = self
-        self.present(slideVC, animated: true, completion: nil)
-    }
+//    @objc func showMiracle() {
+//        let slideVC = OverlayView()
+//        slideVC.viewModel = viewModel
+//        slideVC.modalPresentationStyle = .custom
+//        slideVC.transitioningDelegate = self
+//        self.present(slideVC, animated: true, completion: nil)
+//    }
     
-    override func didMove(toParent parent: UIViewController?) {
-        if(parent == nil) { viewModel.onCleared() }
-    }
+//    override func didMove(toParent parent: UIViewController?) {
+//        if(parent == nil) { viewModel.onCleared() }
+//    }
 }
 
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cityArray.count
+        viewModel.cities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cities = viewModel.cities as! [RealmCityModel]
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
-        cell.setCellContent(data: cityArray[indexPath.row])
+        cell.setCellContent(data: cities[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let sb = UIStoryboard(name: "ViewController", bundle: nil)
         let controller = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        controller.welcome = cityArray[indexPath.row]
+        controller.welcome = viewModel.cities[indexPath.row] as! RealmCityModel
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -136,8 +123,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        viewModel.deleteCity(name: cityArray[indexPath.row].name)
-        cityArray = viewModel.fetchAllCities()
+        viewModel.deleteCity(name: (viewModel.cities[indexPath.row] as AnyObject).name)
+        viewModel.fetchAllCities()
         tableView.reloadData()
     }
     
@@ -147,4 +134,28 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         PresentationController(presentedViewController: presented, presenting: presenting)
     }
+}
+
+
+extension ViewController: SimpleViewModelEventsListener {
+    func error(message: String) {
+        print("error")
+    }
+    
+    func isLoading(isLoading: Bool) {
+        if isLoading {
+            tableView.refreshControl?.beginRefreshing()
+        } else {
+            tableView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func update() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
 }

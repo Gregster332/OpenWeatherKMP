@@ -3,97 +3,48 @@ package com.example.harmanweatherapp.ViewModels
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.Services.NetworkService
 import com.example.harmanweatherapp.Services.RealmService
+import dev.icerock.moko.geo.LocationTracker
+import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.map
 import dev.icerock.moko.mvvm.livedata.setValue
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.util.reflect.*
+import io.realm.internal.platform.runBlocking
 import io.realm.objects
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
-class SimpleViewModel() : ViewModel() {
-    private val _counter: MutableLiveData<Welcome> = MutableLiveData(Welcome(coord = Coord(0.0, 0.0),
-        name = "NONE",
-        main = Main(0.0, 0.0, 0.0, 0.0, 0L, 0L),
-        sys = Sys(0L, 0L),
-        weather = listOf(Weather(0L, "", "", ""))
-    ))
-    val counter: LiveData<Welcome> = _counter
-    private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
-    val error: LiveData<Boolean> = _error
+interface SimpleViewModeling {
+    var cities: MutableList<RealmCityModel>
+    //fun checkAndAddNewCity(name: String)
+    fun checkAndAddNewCity(name: String, callback: () -> Unit)
+    fun deleteCity(name: String)
+    fun refresh()
+}
 
-    val networkService = NetworkService.instance
+class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): SimpleViewModeling, ViewModel() {
+
+    override var cities: MutableList<RealmCityModel> = mutableListOf()
+
     val realm = RealmService.instance
+    val networkService = NetworkService.instance
 
-    fun fetchAllCities(): List<RealmCityModel> {
-        return realm.realm.objects(RealmCityModel::class).sortedBy { it.name }
-    }
-
-    fun deleteAllCities() {
-        realm.deleteAllCities()
-    }
-    
-    fun deleteCity(name: String) {
-        realm.deleteCity(name)
-    }
-
-    fun addCityToDB(name: String) {
-        getCityByName(name = name) {
-            if (it != null) {
-                viewModelScope.launch {
-                    if (counter.value.name != "NONE" ) {
-                        realm.addCityToDB(convertFromWelcomeToRealmClass(counter.value))
-                    }
+    init {
+        viewModelScope.async {
+            realm.realm.objects(RealmCityModel::class).observe().collect {
+                cities = it.toMutableList()
+                eventsDispatcher.dispatchEvent {
+                    isLoading(false)
+                    update()
                 }
-            } else {
-                _error.setValue(true, true)
             }
         }
     }
 
-    private fun getCityByName(name: String, callback: (Welcome?) -> Unit) {
-        MainScope().launch {
-            networkService.getDataByCityName(name, callback = { result ->
-                if (result != null) {
-                    _counter.postValue(result)
-                    callback.invoke(result)
-                }
-            }, failure = { error ->
-                if (error != null) {
-                    _error.postValue(true)
-                }
-            })
-        }
-    }
-
-    fun refreshCities() {
-
-            val names: MutableList<String> = mutableListOf()
-            val results = fetchAllCities()
-            for (city in results) {
-                names.add(city.name)
-            }
-            deleteAllCities()
-        viewModelScope.launch {
-            for (name in names) {
-                getCityByName(name, callback = {
-                    if (it != null) {
-                        print(it)
-                        realm.addCityToDB(convertFromWelcomeToRealmClass(it))
-                    } else {
-                        _error.setValue(true, false)
-                    }
-                })
-            }
-        }
-    }
-
-    fun getCityByCoordinates() {
-
+    fun fetchAllCities() {
+        cities = realm.fetchAllCities().toMutableList()
     }
 
     private fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {
@@ -123,8 +74,85 @@ class SimpleViewModel() : ViewModel() {
         return welcome
     }
 
-    fun doErrorFalse() {
-        _error.setValue(false, true)
+
+    interface EventsListener {
+        fun update()
+        fun isLoading(isLoading: Boolean)
+        fun error(message: String)
+    }
+
+    override fun checkAndAddNewCity(name: String, callback: () -> Unit) {
+        eventsDispatcher.dispatchEvent { isLoading(true) }
+
+        if (name.isEmpty()) {
+            eventsDispatcher.dispatchEvent {
+                isLoading(false)
+                error("Epty name field")
+            }
+            return
+        }
+
+        if (realm.isCityStored(name)) {
+            eventsDispatcher.dispatchEvent {
+                isLoading(false)
+                error("Repeating location")
+            }
+            return
+        }
+
+        viewModelScope.launch {
+            kotlin.runCatching {
+                networkService.getDataByCityName(name)
+            }.onSuccess { result ->
+                if (result != null) {
+                    realm.addCityToDB(convertFromWelcomeToRealmClass(result))
+                    eventsDispatcher.dispatchEvent {
+                        isLoading(false)
+                        update()
+                    }
+                    callback.invoke()
+                }
+            }.onFailure {
+                eventsDispatcher.dispatchEvent {
+                    isLoading(false)
+                    error(it)
+                }
+            }
+        }
+    }
+
+    override fun deleteCity(name: String) {
+        realm.deleteCity(name)
+    }
+
+    override fun refresh() {
+       eventsDispatcher.dispatchEvent {
+           isLoading(true)
+       }
+
+        val names = realm.getLocationNames()
+        for (name in names) {
+         viewModelScope.launch {
+             kotlin.runCatching {
+                 networkService.getDataByCityName(name)
+             }.onSuccess {  result ->
+                 val response = networkService.getDataByCityName(name)
+                 val model = convertFromWelcomeToRealmClass(response)
+                 MainScope().async {
+                     realm.updateLocationWeather(name, model)
+                     eventsDispatcher.dispatchEvent {
+                         isLoading(false)
+                         update()
+                     }
+                 }
+             }.onFailure {
+              eventsDispatcher.dispatchEvent {
+                  isLoading(false)
+                  error(it)
+              }
+             }
+         }
+        }
     }
 
 }
