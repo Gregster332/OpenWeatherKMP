@@ -15,10 +15,7 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var cityLabel: UILabel!
     @IBOutlet private weak var tempLabel: UILabel!
     @IBOutlet private weak var DescLabel: UILabel!
-    @IBOutlet private weak var pressure: UILabel!
-    @IBOutlet private weak var humidity: UILabel!
-    @IBOutlet private weak var sunrise: UILabel!
-    @IBOutlet private weak var sunset: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
     
     var welcome: RealmCityModel? = nil
     
@@ -29,14 +26,60 @@ class DetailViewController: UIViewController {
             cityLabel.text = welcome!.name
             tempLabel.text = "Temperature: \(Int(welcome!.temp - 273))ºC"
             DescLabel.text = "Description: \(welcome!.main)"
-            pressure.text = "\(welcome!.pressure)hPh"
-            humidity.text = "\(welcome!.humidity)%"
-            sunrise.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunrise)).timeIn24HourFormat())"
-            sunset.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunset)).timeIn24HourFormat())"
+           configureTableView()
         }
         
         
     }
+    
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+}
+
+extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 7
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        switch indexPath.row {
+        case 0:
+            cell.textLabel?.text = "Feels like:"
+            cell.detailTextLabel?.text = "\(Int(welcome!.feelsLike - 273))"
+        case 1:
+            cell.textLabel?.text = "Temp max:"
+            cell.detailTextLabel?.text = "\(Int(welcome!.tempMax - 273))"
+        case 2:
+            cell.textLabel?.text = "Temp min:"
+            cell.detailTextLabel?.text = "\(Int(welcome!.tempMin - 273))"
+        case 3:
+            cell.textLabel?.text = "Pressure:"
+            cell.detailTextLabel?.text = "\(welcome!.pressure)hPh"
+        case 4:
+            cell.textLabel?.text = "Humidity:"
+            cell.detailTextLabel?.text = "\(welcome!.humidity)%"
+        case 5:
+            cell.textLabel?.text = "Susnet:"
+            cell.detailTextLabel?.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunset)).timeIn24HourFormat())"
+        case 6:
+            cell.textLabel?.text = "Sunrise:"
+            cell.detailTextLabel?.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunrise)).timeIn24HourFormat())"
+        default:
+            cell.textLabel?.text = ""
+            cell.detailTextLabel?.text = ""
+        }
+        
+        return cell
+    }
+    
+    
+    
+    
 }
 
 

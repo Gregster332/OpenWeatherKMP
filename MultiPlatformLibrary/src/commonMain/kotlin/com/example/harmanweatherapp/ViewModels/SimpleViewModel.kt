@@ -32,17 +32,17 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
     val realm = RealmService.instance
     val networkService = NetworkService.instance
 
-    init {
-        viewModelScope.async {
-            realm.realm.objects(RealmCityModel::class).observe().collect {
-                cities = it.toMutableList()
-                eventsDispatcher.dispatchEvent {
-                    isLoading(false)
-                    update()
-                }
-            }
-        }
-    }
+//    init {
+//        viewModelScope.async {
+//            realm.realm.objects(RealmCityModel::class).observe().collect {
+//                cities = it.toMutableList()
+//                eventsDispatcher.dispatchEvent {
+//                    isLoading(false)
+//                    update()
+//                }
+//            }
+//        }
+//    }
 
     fun fetchAllCities() {
         cities = realm.fetchAllCities().sortedBy { it.name }.toMutableList()
