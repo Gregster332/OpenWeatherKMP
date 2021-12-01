@@ -111,12 +111,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         refreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-            viewModel.fetchAllCities()
-            items.clear()
-            reloadData()
-            list.adapter = adapter
-            refreshLayout.isRefreshing = false
+//            dialog.setContentView(R.layout.spinner)
+//            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.show()
+            viewModel.refresh {
+                viewModel.fetchAllCities()
+                items.clear()
+                reloadData()
+                list.adapter = adapter
+                //dialog.hide()
+                refreshLayout.isRefreshing = false
+            }
         }
 
     }

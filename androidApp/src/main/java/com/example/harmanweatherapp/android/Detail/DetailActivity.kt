@@ -6,12 +6,14 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.harmanweatherapp.Models.Welcome
 import com.example.harmanweatherapp.android.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
     var welcome: String? = null
 
-    //var button: Button? = null
+    val format = SimpleDateFormat("HH:mm", Locale.ROOT)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +46,15 @@ class DetailActivity : AppCompatActivity() {
         tv3.text = temp
         humidity.text = "Humidity: $humidityStr %"
         pressure.text = "Pressure: $pressureStr hPh"
-        sunset.text = "Sunset: $sunsetStr"
-        sunrise.text = "Sunrise: $sunriseStr"
+        sunset.text = "Sunset: ${format.format(Date(sunsetStr!!.toLong()))}"
+        sunrise.text = "Sunrise: ${format.format(Date(sunriseStr!!.toLong()))}"
         max.text = "Temp max: $maxStr ºC"
         min.text = "Temp min: $minStr ºC"
         feelsLike.text = "Feels like: $fl ºC"
+        //val date = Date(sunsetStr!!.toLong())
 
         button.setOnClickListener {
+            //print(date)
             finish()
         }
 
