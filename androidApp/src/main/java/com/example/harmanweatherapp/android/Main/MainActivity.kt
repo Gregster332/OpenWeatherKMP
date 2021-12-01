@@ -1,6 +1,5 @@
 package com.example.harmanweatherapp.android.Main
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -8,12 +7,16 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.harmanweatherapp.Enums.LoadingState
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
 import com.example.harmanweatherapp.android.R
+import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,8 +24,10 @@ class MainActivity : AppCompatActivity() {
     var items: ArrayList<Welcome> = arrayListOf()
     var adapter: ListAdapter? = null
 
-    private val viewModel = SimpleViewModel()
+    private val viewModel = SimpleViewModel(EventsDispatcher())
     private var current = ""
+
+    val rotation: RotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +37,14 @@ class MainActivity : AppCompatActivity() {
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
+        //var spinner: ProgressBar = findViewById(R.id.spinnerView)
         var dialog = Dialog(this)
         var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
         var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
         needToRefresh.visibility = View.GONE
 
-        items = convert()
+        reloadData()
         adapter = ListAdapter(this, items)
         list.adapter = adapter
 
@@ -70,49 +76,57 @@ class MainActivity : AppCompatActivity() {
         }
 
         imageView.setOnClickListener {
+            dialog.setContentView(R.layout.spinner)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+                    viewModel.checkAndAddNewCity(editText.text.toString(), callback = {
 
-                    viewModel.addCityToDB(editText.text.toString())
-                    items.addAll(convert())
-                    //current = viewModel.counter.value.name
-                    list.adapter = adapter
-                    editText.setText("")
+                            if (it == LoadingState.success) {
+                                dialog.hide()
+                                items.clear()
+                                reloadData()
+                                list.adapter = adapter
+                                editText.setText("")
+                            } else {
+                                //dialog.hide()
+                                editText.setText("")
+                                dialog.setContentView(R.layout.popup)
+                                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                                dialog.show()
+                            }
 
-//                    dialog.setContentView(R.layout.popup)
-//                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//                    dialog.show()
+
+                            //spinner.startAnimation(rotation)
+
+                    })
 
                 }
 
         deleteAllImageView.setOnClickListener {
-            viewModel.deleteAllCities()
+            viewModel.realm.deleteAllCities()
             items.clear()
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
-           // viewModel.getCityByCoordinates()
+
         }
 
         refreshLayout.setOnRefreshListener {
-            if (items.isEmpty()) {
-                items.addAll(convert())
-                adapter!!.notifyDataSetChanged()
-                needToRefresh.visibility = View.GONE
-            } else {
-                items.clear()
-                viewModel.refresh()
-                needToRefresh.visibility = View.VISIBLE
-            }
+            viewModel.refresh()
+            viewModel.fetchAllCities()
+            items.clear()
+            reloadData()
             list.adapter = adapter
             refreshLayout.isRefreshing = false
         }
 
     }
-    private fun convert(): ArrayList<Welcome> {
-        var arrayList: ArrayList<Welcome> = arrayListOf()
+
+
+    fun reloadData() {
         viewModel.fetchAllCities()
         var list = viewModel.cities
         list.forEach {
-            arrayList.add(viewModel.fromRealmCityModelToWelcome(it))
+            items.add(viewModel.fromRealmCityModelToWelcome(it))
         }
-        return arrayList
     }
 }

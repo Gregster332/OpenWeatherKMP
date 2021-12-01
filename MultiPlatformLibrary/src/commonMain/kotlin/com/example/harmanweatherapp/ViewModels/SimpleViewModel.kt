@@ -1,14 +1,12 @@
 package com.example.harmanweatherapp.ViewModels
 
+import com.example.harmanweatherapp.Enums.LoadingState
 import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.Services.NetworkService
 import com.example.harmanweatherapp.Services.RealmService
 import dev.icerock.moko.geo.LocationTracker
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
-import dev.icerock.moko.mvvm.livedata.LiveData
-import dev.icerock.moko.mvvm.livedata.MutableLiveData
-import dev.icerock.moko.mvvm.livedata.map
-import dev.icerock.moko.mvvm.livedata.setValue
+import dev.icerock.moko.mvvm.livedata.*
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.util.reflect.*
 import io.realm.internal.platform.runBlocking
@@ -19,12 +17,15 @@ import kotlinx.coroutines.flow.collect
 interface SimpleViewModeling {
     var cities: MutableList<RealmCityModel>
     //fun checkAndAddNewCity(name: String)
-    fun checkAndAddNewCity(name: String, callback: () -> Unit)
+    fun checkAndAddNewCity(name: String, callback: (LoadingState) -> Unit)
     fun deleteCity(name: String)
-    fun refresh()
+    fun refresh(callback: () -> Unit)
 }
 
 class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): SimpleViewModeling, ViewModel() {
+
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading.readOnly()
 
     override var cities: MutableList<RealmCityModel> = mutableListOf()
 
@@ -44,7 +45,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
     }
 
     fun fetchAllCities() {
-        cities = realm.fetchAllCities().toMutableList()
+        cities = realm.fetchAllCities().sortedBy { it.name }.toMutableList()
     }
 
     private fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {
@@ -81,14 +82,16 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
         fun error(message: String)
     }
 
-    override fun checkAndAddNewCity(name: String, callback: () -> Unit) {
+    override fun checkAndAddNewCity(name: String, callback: (LoadingState) -> Unit) {
         eventsDispatcher.dispatchEvent { isLoading(true) }
-
+        _loading.value = true
         if (name.isEmpty()) {
             eventsDispatcher.dispatchEvent {
                 isLoading(false)
                 error("Epty name field")
             }
+            _loading.value = false
+            //callback.invoke(LoadingState.error)
             return
         }
 
@@ -97,6 +100,8 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                 isLoading(false)
                 error("Repeating location")
             }
+            _loading.value = false
+            //callback.invoke(LoadingState.error)
             return
         }
 
@@ -110,13 +115,16 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                         isLoading(false)
                         update()
                     }
-                    callback.invoke()
+                    _loading.value = false
+                    callback.invoke(LoadingState.success)
                 }
             }.onFailure {
                 eventsDispatcher.dispatchEvent {
                     isLoading(false)
                     error(it)
                 }
+                _loading.value = false
+                callback.invoke(LoadingState.error)
             }
         }
     }
@@ -125,7 +133,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
         realm.deleteCity(name)
     }
 
-    override fun refresh() {
+    override fun refresh(callback: () -> Unit) {
        eventsDispatcher.dispatchEvent {
            isLoading(true)
        }
@@ -136,15 +144,18 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
              kotlin.runCatching {
                  networkService.getDataByCityName(name)
              }.onSuccess {  result ->
+
                  val response = networkService.getDataByCityName(name)
                  val model = convertFromWelcomeToRealmClass(response)
                  MainScope().async {
                      realm.updateLocationWeather(name, model)
+                     callback.invoke()
                      eventsDispatcher.dispatchEvent {
                          isLoading(false)
                          update()
                      }
                  }
+
              }.onFailure {
               eventsDispatcher.dispatchEvent {
                   isLoading(false)
@@ -152,6 +163,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
               }
              }
          }
+
         }
     }
 

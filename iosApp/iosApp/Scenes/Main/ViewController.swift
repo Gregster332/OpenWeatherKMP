@@ -65,11 +65,19 @@ class ViewController: UIViewController {
     
     @IBAction func onCounterButtonPressed() {
         guard let text = textField.text else { return }
-        viewModel.checkAndAddNewCity(name: text) {
-            self.view.endEditing(true)
-            self.textField.text = ""
-            self.viewModel.fetchAllCities()
-            self.tableView.reloadData()
+        ind.showIndicator()
+        viewModel.checkAndAddNewCity(name: text) { result in
+            if result == LoadingState.success {
+                self.view.endEditing(true)
+                self.textField.text = ""
+                self.viewModel.fetchAllCities()
+                self.tableView.reloadData()
+                self.ind.hideIndicator()
+            } else {
+                self.textField.text = ""
+                self.ind.hideIndicator()
+                self.showMiracle()
+            }
         }
     }
     
@@ -80,17 +88,24 @@ class ViewController: UIViewController {
     }
     
     @objc private func refreshWeather() {
-        viewModel.refresh()
-        update()
+        ind.showIndicator()
+        viewModel.refresh { 
+            self.viewModel.fetchAllCities()
+            self.update()
+            DispatchQueue.main.async {
+            self.ind.hideIndicator()
+            }
+        }
+        print("Here")
     }
     
-//    @objc func showMiracle() {
-//        let slideVC = OverlayView()
-//        slideVC.viewModel = viewModel
-//        slideVC.modalPresentationStyle = .custom
-//        slideVC.transitioningDelegate = self
-//        self.present(slideVC, animated: true, completion: nil)
-//    }
+    @objc func showMiracle() {
+        let slideVC = OverlayView()
+        slideVC.viewModel = viewModel
+        slideVC.modalPresentationStyle = .custom
+        slideVC.transitioningDelegate = self
+        self.present(slideVC, animated: true, completion: nil)
+    }
     
 //    override func didMove(toParent parent: UIViewController?) {
 //        if(parent == nil) { viewModel.onCleared() }
