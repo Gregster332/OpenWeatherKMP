@@ -27,6 +27,13 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
     private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading.readOnly()
 
+    private val _currentCity: MutableLiveData<Welcome> = MutableLiveData(Welcome(Coord(0.0, 0.0),
+    listOf(Weather(0, "", "", "")),
+    Main(0.0, 0.0, 0.0 , 0.0, 0, 0),
+    Sys(0, 0),
+    "None"))
+    val currentCity: LiveData<Welcome> = _currentCity.readOnly()
+
     override var cities: MutableList<RealmCityModel> = mutableListOf()
 
     val realm = RealmService.instance
@@ -48,7 +55,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
         cities = realm.fetchAllCities().sortedBy { it.name }.toMutableList()
     }
 
-    private fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {
+    fun convertFromWelcomeToRealmClass(welcome: Welcome): RealmCityModel {
         val city = RealmCityModel()
         city.name = welcome.name
         city.main = welcome.weather[0].main
@@ -80,6 +87,22 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
         fun update()
         fun isLoading(isLoading: Boolean)
         fun error(message: String)
+    }
+
+    fun getCurrentUserLocation(lat: Double, lon: Double, callback: (Welcome) -> Unit) {
+        _loading.value = true
+        viewModelScope.launch {
+            kotlin.runCatching {
+                networkService.getDataByCoordinates(lat, lon)
+            }.onSuccess { result ->
+                if (result != null) {
+                    _loading.value = false
+                   callback.invoke(result)
+                }
+            }.onFailure {
+                _loading.value = false
+            }
+        }
     }
 
     override fun checkAndAddNewCity(name: String, callback: (LoadingState) -> Unit) {
@@ -134,11 +157,15 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
     }
 
     override fun refresh(callback: () -> Unit) {
+        _loading.value = true
        eventsDispatcher.dispatchEvent {
            isLoading(true)
        }
 
         val names = realm.getLocationNames()
+        if (names.isEmpty()) {
+            return
+        }
         for (name in names) {
          viewModelScope.launch {
              kotlin.runCatching {
@@ -149,6 +176,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                  val model = convertFromWelcomeToRealmClass(response)
                  MainScope().async {
                      realm.updateLocationWeather(name, model)
+                     _loading.value = false
                      callback.invoke()
                      eventsDispatcher.dispatchEvent {
                          isLoading(false)
@@ -157,6 +185,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                  }
 
              }.onFailure {
+                 _loading.value = false
               eventsDispatcher.dispatchEvent {
                   isLoading(false)
                   error(it)

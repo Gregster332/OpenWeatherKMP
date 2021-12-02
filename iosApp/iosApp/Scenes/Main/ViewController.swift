@@ -6,16 +6,24 @@ class ViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
+    @IBOutlet private weak var currentCityView: UIView!
+    
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
     
     var viewModel: SimpleViewModel!
+    var locationManager: LocationManager!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager = LocationManager()
         viewModel = SimpleViewModel(eventsDispatcher: .init())
         viewModel.fetchAllCities()
         tableViewRegister()
+        textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
+        
     }
     
     private func tableViewRegister() {
@@ -25,6 +33,14 @@ class ViewController: UIViewController {
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshWeather), for: .valueChanged)
 
+    }
+    
+    @objc private func textFieldDidChanged() {
+        if textField.text!.isEmpty {
+            self.view.endEditing(true)
+        } else {
+            onCounterButtonPressed()
+        }
     }
     
     private func createNeedToRefreshView(deleteViews: Bool) {
@@ -89,12 +105,18 @@ class ViewController: UIViewController {
     
     @objc private func refreshWeather() {
         ind.showIndicator()
-        viewModel.refresh { 
-            self.viewModel.fetchAllCities()
-            self.update()
-            DispatchQueue.main.async {
-            self.ind.hideIndicator()
+        currentCityView.setNeedsDisplay()
+        if viewModel.cities.count != 0 {
+            viewModel.refresh {
+                self.viewModel.fetchAllCities()
+                self.update()
+                DispatchQueue.main.async {
+                    self.ind.hideIndicator()
+                }
             }
+        } else {
+            update()
+            ind.hideIndicator()
         }
         print("Here")
     }
@@ -107,9 +129,6 @@ class ViewController: UIViewController {
         self.present(slideVC, animated: true, completion: nil)
     }
     
-//    override func didMove(toParent parent: UIViewController?) {
-//        if(parent == nil) { viewModel.onCleared() }
-//    }
 }
 
 

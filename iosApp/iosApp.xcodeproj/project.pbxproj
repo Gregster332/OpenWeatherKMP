@@ -18,6 +18,7 @@
 		D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D042FF6E274F9AFD0023D338 /* sviaz.jpg */; };
 		D042FF71275230400023D338 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF70275230400023D338 /* RefreshView.swift */; };
 		D042FF742754BAE20023D338 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF732754BAE20023D338 /* LocationManager.swift */; };
+		D042FF762758EC8C0023D338 /* CurrentLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF752758EC8C0023D338 /* CurrentLocationView.swift */; };
 		D053EA672747A10500D6FA29 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA652747A10500D6FA29 /* CityCell.swift */; };
 		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
@@ -41,6 +42,7 @@
 		D042FF6E274F9AFD0023D338 /* sviaz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sviaz.jpg; sourceTree = "<group>"; };
 		D042FF70275230400023D338 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		D042FF732754BAE20023D338 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D042FF752758EC8C0023D338 /* CurrentLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationView.swift; sourceTree = "<group>"; };
 		D053EA652747A10500D6FA29 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				D042FF66274F91220023D338 /* PresentationController.swift */,
 				D042FF68274F95510023D338 /* OverlayView.xib */,
 				D042FF6C274F98880023D338 /* OverlayView.swift */,
+				D042FF752758EC8C0023D338 /* CurrentLocationView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				D042FF6D274F98880023D338 /* OverlayView.swift in Sources */,
 				D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */,
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
+				D042FF762758EC8C0023D338 /* CurrentLocationView.swift in Sources */,
 				D042FF742754BAE20023D338 /* LocationManager.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,
