@@ -10,10 +10,13 @@ import UIKit
 import MapKit
 import MultiPlatformLibrary
 import MultiPlatformLibraryMvvm
+import SwiftUI
 
 class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
+    
+    @AppStorage("language") var language = LocalizationService.shared.language
     
     var viewModel: SimpleViewModel!
     var cities: [RealmCityModel] = []
@@ -32,7 +35,7 @@ class MapViewController: UIViewController {
         configureMapView()
         for city in 0..<cities.count {
             addCustomPin(cities[city].name,
-                         "\(cities[city].main), \(Int(cities[city].temp - 273))ºC",
+                         "\(cities[city].main.lowercased().localized(language)), \(Int(cities[city].temp - 273))ºC",
                          CLLocationCoordinate2D(latitude: cities[city].lat,
                                                 longitude: cities[city].lon))
         }

@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  iosApp
+
+  Created by Grigory Zenkov on 03.12.2021.
+  Copyright © 2021 orgName. All rights reserved.
+*/
+"cli" = "Current location info";
+"ntr" = "Need to refresh";
+"tmp" = "Temperature";
+"clouds" = "Clouds";
+"clear" = "Clear";
+"mist" = "Mist";
+"smoke" = "Smoke";
+"haze" = "Haze";
+"dust" = "Dust";
+"fog" = "Fog";
+"sand" = "Sand";
+"ash" = "Ash";
+"squall" = "Squall";
+"drizzle" = "Drizzle";
+"thunderstorm" = "Thunderstorm";
+"tornado" = "Tornado";
+"snow" = "Snow";
+"rain" = "Rain";
+"gb" = "Go back";
+"desc" = "Description";
+"feels_like" = "Feels like";
+"humidity" = "Humidity";
+"pressure" = "Pressure";
+"sunrise" = "Sunrise";
+"sunset" = "Sunset";
+"max" = "Temp max";
+"min" = "Temp min";
+"cit" = "Cities";
+"map" = "Map";
+"hdl" = "Hide location view";
+"cl" = "Language";

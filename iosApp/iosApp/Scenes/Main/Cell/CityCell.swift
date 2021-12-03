@@ -8,6 +8,7 @@
 
 import UIKit
 import MultiPlatformLibrary
+import SwiftUI
 
 class CityCell: UITableViewCell {
     
@@ -15,6 +16,8 @@ class CityCell: UITableViewCell {
     @IBOutlet private weak var descLabel: UILabel!
     @IBOutlet private weak var tempLabel: UILabel!
     @IBOutlet private weak var emoji: UILabel!
+    
+    @AppStorage("language") var language = LocalizationService.shared.language
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,15 +29,15 @@ class CityCell: UITableViewCell {
     
     func setCellContent(data: RealmCityModel) {
         cityName.text = data.name
-        descLabel.text = data.main
-        tempLabel.text = "Temperature: \(Int(data.temp - 273))ºC"
+        descLabel.text = data.main.lowercased().localized(language)
+        tempLabel.text = "\("tmp".localized(language)): \(Int(data.temp - 273))ºC"
         emoji.text = emojis[data.main]
     }
     
     func setContentFromLocation(data: Welcome) {
         cityName.text = data.name
-        descLabel.text = data.weather[0].main
-        tempLabel.text = "Temperature: \(Int(data.main.temp - 273))ºC"
+        descLabel.text = data.weather[0].main.lowercased().localized(language)
+        tempLabel.text = "\("tmp".localized(language)): \(Int(data.main.temp - 273))ºC"
         emoji.text = emojis[data.weather[0].main]
     }
     

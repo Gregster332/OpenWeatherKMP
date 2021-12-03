@@ -9,6 +9,7 @@
 import UIKit
 import MultiPlatformLibrary
 import MultiPlatformLibraryMvvm
+import SwiftUI
 
 class DetailViewController: UIViewController {
     
@@ -16,17 +17,20 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var tempLabel: UILabel!
     @IBOutlet private weak var DescLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
+   
+    @IBOutlet private weak var backBtn: UIButton!
     
     
     var welcome: RealmCityModel? = nil
+    @AppStorage("language") var language = LocalizationService.shared.language
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        backBtn.setTitle("gb".localized(language), for: .normal)
         if welcome != nil {
             cityLabel.text = welcome!.name
-            tempLabel.text = "Temperature: \(Int(welcome!.temp - 273))ºC"
-            DescLabel.text = "Description: \(welcome!.main)"
+            tempLabel.text = "\("tmp".localized(language)): \(Int(welcome!.temp - 273))ºC"
+            DescLabel.text = "\("desc".localized(language)): \(welcome!.main.lowercased().localized(language))"
            configureTableView()
         }
         
@@ -54,25 +58,25 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "Feels like:"
+            cell.textLabel?.text = "\("feels_like".localized(language)):"
             cell.detailTextLabel?.text = "\(Int(welcome!.feelsLike - 273))"
         case 1:
-            cell.textLabel?.text = "Temp max:"
+            cell.textLabel?.text = "\("max".localized(language)):"
             cell.detailTextLabel?.text = "\(Int(welcome!.tempMax - 273))"
         case 2:
-            cell.textLabel?.text = "Temp min:"
+            cell.textLabel?.text = "\("min".localized(language)):"
             cell.detailTextLabel?.text = "\(Int(welcome!.tempMin - 273))"
         case 3:
-            cell.textLabel?.text = "Pressure:"
+            cell.textLabel?.text = "\("pressure".localized(language)):"
             cell.detailTextLabel?.text = "\(welcome!.pressure)hPh"
         case 4:
-            cell.textLabel?.text = "Humidity:"
+            cell.textLabel?.text = "\("humidity".localized(language)):"
             cell.detailTextLabel?.text = "\(welcome!.humidity)%"
         case 5:
-            cell.textLabel?.text = "Susnet:"
+            cell.textLabel?.text = "\("sunset".localized(language)):"
             cell.detailTextLabel?.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunset)).timeIn24HourFormat())"
         case 6:
-            cell.textLabel?.text = "Sunrise:"
+            cell.textLabel?.text = "\("sunrise".localized(language)):"
             cell.detailTextLabel?.text = "\(Date(timeIntervalSince1970: TimeInterval(welcome!.sunrise)).timeIn24HourFormat())"
         default:
             cell.textLabel?.text = ""

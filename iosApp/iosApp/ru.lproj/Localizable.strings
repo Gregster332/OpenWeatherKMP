@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  iosApp
+
+  Created by Grigory Zenkov on 03.12.2021.
+  Copyright © 2021 orgName. All rights reserved.
+*/
+"cit" = "Города";
+"map" = "Карта";
+"cli" = "Местная температура";
+"ntr" = "Нужно перезагрузить";
+"tmp" = "Температура";
+"clouds" = "Облачно";
+"clear" = "Чисто";
+"mist" = "Пыль";
+"smoke" = "Смог";
+"haze" = "Туман";
+"dust" = "Пыль";
+"thunderstorm" = "Гроза";
+"fog" = "Туман";
+"sand" = "Песчаный ветер";
+"ash" = "Пепел";
+"squall" = "Шквал";
+"drizzle" = "Морось";
+"tornado" = "Торнадо";
+"snow" = "Снег";
+"rain" = "Дождь";
+"gb" = "Назад";
+"desc" = "Погода";
+"feels_like" = "Ощущается как";
+"humidity" = "Влажность";
+"pressure" = "Давление";
+"sunrise" = "Рассвет";
+"sunset" = "Закат";
+"max" = "Макс. темп.";
+"min" = "Мин. темп.";
+"hdl" = "Скрыть местную погоду";
+"cl" = "Язык";
+

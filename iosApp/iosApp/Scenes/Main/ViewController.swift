@@ -33,11 +33,19 @@ class ViewController: UIViewController, DataBackDelegate {
     func signalToHide(_ variant: Bool) {
         if variant {
             currentCityView.isHidden = true
-            currentCityView.frame.size.width = 0
-            currentCityView.frame.size.height = 0
+            tableView.reloadData()
+//            let sb = UIStoryboard(name: "ViewController", bundle: nil)
+//            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//            let mapVC = sb.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+//            self.navigationController?.tabBarController?.setViewControllers([vc, mapVC], animated: true)
         } else {
             currentCityView.isHidden = false
             currentCityView.setNeedsDisplay()
+            tableView.reloadData()
+//            let sb = UIStoryboard(name: "ViewController", bundle: nil)
+//            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//            let mapVC = sb.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+//            self.navigationController?.tabBarController?.setViewControllers([vc, mapVC], animated: true)
         }
     }
     
