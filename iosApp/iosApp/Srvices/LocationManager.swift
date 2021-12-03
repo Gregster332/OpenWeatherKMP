@@ -2,7 +2,7 @@
 //  LocationManager.swift
 //  iosApp
 //
-//  Created by Grigory Zenkov on 29.11.2021.
+//  Created by Grigory Zenkov on 03.12.2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
@@ -37,4 +37,5 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
 }
+
 

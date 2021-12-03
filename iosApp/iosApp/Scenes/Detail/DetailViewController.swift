@@ -17,6 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var DescLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
+    
     var welcome: RealmCityModel? = nil
     
     override func viewDidLoad() {
@@ -35,6 +36,10 @@ class DetailViewController: UIViewController {
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @IBAction func goBack() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

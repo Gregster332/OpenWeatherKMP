@@ -17,8 +17,12 @@
 		D042FF6D274F98880023D338 /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF6C274F98880023D338 /* OverlayView.swift */; };
 		D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D042FF6E274F9AFD0023D338 /* sviaz.jpg */; };
 		D042FF71275230400023D338 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF70275230400023D338 /* RefreshView.swift */; };
-		D042FF742754BAE20023D338 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF732754BAE20023D338 /* LocationManager.swift */; };
 		D042FF762758EC8C0023D338 /* CurrentLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D042FF752758EC8C0023D338 /* CurrentLocationView.swift */; };
+		D04EF387275A3907005C9C9D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04EF386275A3907005C9C9D /* MapViewController.swift */; };
+		D04EF389275A39C1005C9C9D /* CityAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04EF388275A39C1005C9C9D /* CityAnnotation.swift */; };
+		D04EF393275A51B3005C9C9D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04EF392275A51B3005C9C9D /* SettingsViewController.swift */; };
+		D04EF396275A588F005C9C9D /* HiddenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04EF395275A588F005C9C9D /* HiddenState.swift */; };
+		D04EF398275A5A9D005C9C9D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04EF397275A5A9D005C9C9D /* LocationManager.swift */; };
 		D053EA672747A10500D6FA29 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA652747A10500D6FA29 /* CityCell.swift */; };
 		D053EA682747A10500D6FA29 /* CityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D053EA662747A10500D6FA29 /* CityCell.xib */; };
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
@@ -41,8 +45,12 @@
 		D042FF6C274F98880023D338 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
 		D042FF6E274F9AFD0023D338 /* sviaz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sviaz.jpg; sourceTree = "<group>"; };
 		D042FF70275230400023D338 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
-		D042FF732754BAE20023D338 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D042FF752758EC8C0023D338 /* CurrentLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationView.swift; sourceTree = "<group>"; };
+		D04EF386275A3907005C9C9D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		D04EF388275A39C1005C9C9D /* CityAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityAnnotation.swift; sourceTree = "<group>"; };
+		D04EF392275A51B3005C9C9D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D04EF395275A588F005C9C9D /* HiddenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenState.swift; sourceTree = "<group>"; };
+		D04EF397275A5A9D005C9C9D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		D053EA652747A10500D6FA29 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		D053EA662747A10500D6FA29 /* CityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityCell.xib; sourceTree = "<group>"; };
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -116,14 +124,46 @@
 		D042FF722754BAD30023D338 /* Srvices */ = {
 			isa = PBXGroup;
 			children = (
-				D042FF732754BAE20023D338 /* LocationManager.swift */,
+				D04EF395275A588F005C9C9D /* HiddenState.swift */,
+				D04EF397275A5A9D005C9C9D /* LocationManager.swift */,
 			);
 			path = Srvices;
+			sourceTree = "<group>";
+		};
+		D04EF385275A3875005C9C9D /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				D04EF386275A3907005C9C9D /* MapViewController.swift */,
+				D04EF388275A39C1005C9C9D /* CityAnnotation.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		D04EF391275A5192005C9C9D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D04EF392275A51B3005C9C9D /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		D04EF394275A5332005C9C9D /* Helping Views */ = {
+			isa = PBXGroup;
+			children = (
+				D042FF70275230400023D338 /* RefreshView.swift */,
+				D042FF66274F91220023D338 /* PresentationController.swift */,
+				D042FF68274F95510023D338 /* OverlayView.xib */,
+				D042FF6C274F98880023D338 /* OverlayView.swift */,
+				D042FF752758EC8C0023D338 /* CurrentLocationView.swift */,
+			);
+			path = "Helping Views";
 			sourceTree = "<group>";
 		};
 		D053EA6227479CF500D6FA29 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				D04EF391275A5192005C9C9D /* Settings */,
+				D04EF385275A3875005C9C9D /* Map */,
 				D053EA6B2747E39A00D6FA29 /* Detail */,
 				D053EA6327479CFC00D6FA29 /* Main */,
 			);
@@ -133,13 +173,9 @@
 		D053EA6327479CFC00D6FA29 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				D053EA642747A0E900D6FA29 /* Cell */,
 				222F145E27466DFB00DF8D4A /* ViewController.swift */,
-				D042FF70275230400023D338 /* RefreshView.swift */,
-				D042FF66274F91220023D338 /* PresentationController.swift */,
-				D042FF68274F95510023D338 /* OverlayView.xib */,
-				D042FF6C274F98880023D338 /* OverlayView.swift */,
-				D042FF752758EC8C0023D338 /* CurrentLocationView.swift */,
+				D053EA642747A0E900D6FA29 /* Cell */,
+				D04EF394275A5332005C9C9D /* Helping Views */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -280,8 +316,12 @@
 				D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */,
 				222F145F27466DFB00DF8D4A /* ViewController.swift in Sources */,
 				D042FF762758EC8C0023D338 /* CurrentLocationView.swift in Sources */,
-				D042FF742754BAE20023D338 /* LocationManager.swift in Sources */,
+				D04EF398275A5A9D005C9C9D /* LocationManager.swift in Sources */,
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
+				D04EF393275A51B3005C9C9D /* SettingsViewController.swift in Sources */,
+				D04EF387275A3907005C9C9D /* MapViewController.swift in Sources */,
+				D04EF389275A39C1005C9C9D /* CityAnnotation.swift in Sources */,
+				D04EF396275A588F005C9C9D /* HiddenState.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,
 				D053EA672747A10500D6FA29 /* CityCell.swift in Sources */,
 				D042FF71275230400023D338 /* RefreshView.swift in Sources */,

@@ -18,16 +18,23 @@ class CurrentLocationView: UIView {
     private var locationManager: LocationManager = LocationManager()
     private var viewModel: SimpleViewModel!
     var city: Welcome!
+    //var isHide = true
     
     override func draw(_ rect: CGRect) {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToTheCurrentCityDetailView))
-        self.addGestureRecognizer(tapGesture)
-        viewModel = SimpleViewModel(eventsDispatcher: .init())
-        viewModel.getCurrentUserLocation(lat: locationManager.location?.coordinate.latitude ?? 0, lon: locationManager.location?.coordinate.longitude ?? 0) { result in
-            self.city = result
-            self.cityInfo.text = "\(result.name), \(result.weather.first!.main)"
-            self.temperature.text = "\(Int(result.main.temp - 273))ºC"
-        }
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToTheCurrentCityDetailView))
+            self.addGestureRecognizer(tapGesture)
+            self.tag = 102
+            viewModel = SimpleViewModel(eventsDispatcher: .init())
+            viewModel.getCurrentUserLocation(lat: locationManager.location?.coordinate.latitude ?? 0, lon: locationManager.location?.coordinate.longitude ?? 0) { result in
+                self.city = result
+                if result.name != "Globe" {
+                    self.cityInfo.text = "\(result.name), \(result.weather.first!.main)"
+                    self.temperature.text = "\(Int(result.main.temp - 273))ºC"
+                } else {
+                    self.cityInfo.text = "Need to refresh"
+                    self.temperature.text = ""
+                }
+            }
     }
     
     @objc func goToTheCurrentCityDetailView() {

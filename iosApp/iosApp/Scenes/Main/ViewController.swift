@@ -1,8 +1,9 @@
 import UIKit
 import MultiPlatformLibrary
 import MultiPlatformLibraryMvvm
+import SwiftUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, DataBackDelegate {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
@@ -10,20 +11,34 @@ class ViewController: UIViewController {
     
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
+    @AppStorage("hide") var hide = HiddenState.shared.state
     
     var viewModel: SimpleViewModel!
-    var locationManager: LocationManager!
     
+    var hideLocationView = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager = LocationManager()
         viewModel = SimpleViewModel(eventsDispatcher: .init())
         viewModel.fetchAllCities()
         tableViewRegister()
+        if hide == true {
+            currentCityView.isHidden = true
+        }
         textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
         
+    }
+    
+    func signalToHide(_ variant: Bool) {
+        if variant {
+            currentCityView.isHidden = true
+            currentCityView.frame.size.width = 0
+            currentCityView.frame.size.height = 0
+        } else {
+            currentCityView.isHidden = false
+            currentCityView.setNeedsDisplay()
+        }
     }
     
     private func tableViewRegister() {
@@ -77,6 +92,14 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    @IBAction func goToSettings() {
+        let sb = UIStoryboard(name: "ViewController", bundle: nil)
+        let controller = sb.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        controller.delegate = self
+        controller.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(controller, animated: true)
     }
     
     @IBAction func onCounterButtonPressed() {
@@ -149,7 +172,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let sb = UIStoryboard(name: "ViewController", bundle: nil)
         let controller = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         controller.welcome = viewModel.cities[indexPath.row] as! RealmCityModel
-        self.navigationController?.pushViewController(controller, animated: true)
+        self.present(controller, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
