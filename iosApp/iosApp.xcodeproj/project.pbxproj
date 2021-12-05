@@ -118,7 +118,7 @@
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
 				D04EF3A1275AAB52005C9C9D /* Enums */,
-				D042FF722754BAD30023D338 /* Srvices */,
+				D042FF722754BAD30023D338 /* Services */,
 				D053EA78274D409D00D6FA29 /* Constants */,
 				D053EA75274BA14D00D6FA29 /* Extensions */,
 				D053EA6227479CF500D6FA29 /* Scenes */,
@@ -134,14 +134,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D042FF722754BAD30023D338 /* Srvices */ = {
+		D042FF722754BAD30023D338 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				D04EF395275A588F005C9C9D /* HiddenState.swift */,
 				D04EF397275A5A9D005C9C9D /* LocationManager.swift */,
 				D04EF39F275AAB3F005C9C9D /* LocalizationService.swift */,
 			);
-			path = Srvices;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		D04EF385275A3875005C9C9D /* Map */ = {

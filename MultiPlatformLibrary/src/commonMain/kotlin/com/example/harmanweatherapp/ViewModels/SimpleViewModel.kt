@@ -158,6 +158,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
 
     override fun refresh(callback: () -> Unit) {
         _loading.value = true
+        var counter = 0
        eventsDispatcher.dispatchEvent {
            isLoading(true)
        }
@@ -171,13 +172,17 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
              kotlin.runCatching {
                  networkService.getDataByCityName(name)
              }.onSuccess {  result ->
-
+                 
                  val response = networkService.getDataByCityName(name)
                  val model = convertFromWelcomeToRealmClass(response)
                  MainScope().async {
                      realm.updateLocationWeather(name, model)
-                     _loading.value = false
-                     callback.invoke()
+                     counter += 1
+
+                     if (counter == names.count()) {
+                         _loading.value = false
+                         callback.invoke()
+                     }
                      eventsDispatcher.dispatchEvent {
                          isLoading(false)
                          update()

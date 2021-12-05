@@ -18,9 +18,10 @@ class MapViewController: UIViewController {
     
     @AppStorage("language") var language = LocalizationService.shared.language
     
-    var viewModel: SimpleViewModel!
+    //var viewModel: SimpleViewModel!
     var cities: [RealmCityModel] = []
     var ind = Indicator()
+    var viewModel = SimpleViewModel(eventsDispatcher: .init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,34 +31,45 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel = SimpleViewModel(eventsDispatcher: .init())
+        print("hi")
+        //ind.showIndicator()
+        removeAllAnnotations()
         cities = viewModel.realm.fetchAllCities()
         configureMapView()
         for city in 0..<cities.count {
             addCustomPin(cities[city].name,
                          "\(cities[city].main.lowercased().localized(language)), \(Int(cities[city].temp - 273))ºC",
                          CLLocationCoordinate2D(latitude: cities[city].lat,
-                                                longitude: cities[city].lon))
+                                                longitude: cities[city].lon), delete: false)
         }
+        //ind.hideIndicator()
+    }
+    
+    private func removeAllAnnotations() {
+        self.mapView.removeAnnotations(self.mapView.annotations)
     }
     
     private func configureMapView() {
         mapView.mapType = .satellite
         mapView.showsUserLocation = true
         mapView.showsBuildings = true
-        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(addNewPin))
-        mapView.addGestureRecognizer(tapGesture)
+//        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(addNewPin))
+//        mapView.addGestureRecognizer(tapGesture)
+        
     }
     
-    private func addCustomPin(_ title: String, _ subtitle: String, _ coord: CLLocationCoordinate2D) {
+    private func addCustomPin(_ title: String, _ subtitle: String, _ coord: CLLocationCoordinate2D, delete: Bool) {
         let pin = MKPointAnnotation()
         pin.coordinate = coord
         pin.title = title
         pin.subtitle = subtitle
         DispatchQueue.main.async {
-            self.mapView.addAnnotation(pin)
+            if !delete {
+                self.mapView.addAnnotation(pin)
+            } else {
+                self.mapView.removeAnnotation(pin)
+            }
         }
-        
     }
     
     @objc private func addNewPin(name: String = "Moscow") {
