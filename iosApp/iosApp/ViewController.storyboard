@@ -169,10 +169,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zqk-6M-ND1">
-                                        <rect key="frame" x="315" y="8" width="55" height="49"/>
+                                        <rect key="frame" x="300" y="8" width="70" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="49" id="OG8-HT-Nh7"/>
-                                            <constraint firstAttribute="width" constant="55" id="azx-8Z-2bt"/>
+                                            <constraint firstAttribute="width" constant="70" id="azx-8Z-2bt"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                         <nil key="textColor"/>
@@ -218,6 +218,7 @@
                         <outlet property="currentCityView" destination="kCY-br-Xcn" id="5E2-sC-HfJ"/>
                         <outlet property="tableView" destination="MZh-mJ-Rwp" id="82V-IL-Wfb"/>
                         <outlet property="textField" destination="Xkw-2M-mDC" id="0LE-CS-x6h"/>
+                        <outlet property="upperPanel" destination="2lT-2U-kcQ" id="qVB-QD-5q3"/>
                         <segue destination="Vuv-7s-K3T" kind="show" id="kTe-cM-J8M"/>
                     </connections>
                 </viewController>

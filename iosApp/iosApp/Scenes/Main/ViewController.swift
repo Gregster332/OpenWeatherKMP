@@ -8,10 +8,12 @@ class ViewController: UIViewController, DataBackDelegate {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var currentCityView: UIView!
+    @IBOutlet private weak var upperPanel: UIView!
     
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
     @AppStorage("hide") var hide = HiddenState.shared.state
+    @AppStorage("language") var language = LocalizationService.shared.language
     
     var viewModel: SimpleViewModel!
     
@@ -26,13 +28,17 @@ class ViewController: UIViewController, DataBackDelegate {
         if hide == true {
             currentCityView.isHidden = true
         }
+        textField.placeholder = "src".localized(language)
         textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
         
     }
     
     func signalToHide(_ variant: Bool) {
+        textField.placeholder = "src".localized(language)
         if variant {
             currentCityView.isHidden = true
+//            tableView.translatesAutoresizingMaskIntoConstraints = true
+//            tableView.topAnchor.constraint(equalTo: upperPanel.bottomAnchor, constant: 0).isActive = true
             tableView.reloadData()
 //            let sb = UIStoryboard(name: "ViewController", bundle: nil)
 //            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
@@ -41,6 +47,10 @@ class ViewController: UIViewController, DataBackDelegate {
         } else {
             currentCityView.isHidden = false
             currentCityView.setNeedsDisplay()
+//            tableView.translatesAutoresizingMaskIntoConstraints = true
+//            tableView.topAnchor.constraint(equalTo: currentCityView.bottomAnchor, constant: 0).isActive = true
+//            tableView.heightAnchor.constraint(equalToConstant: tableView.frame.size.height - currentCityView.frame.size.height).isActive = true
+//            currentCityView.backgroundColor = UIColor(red: 49, green: 182, blue: 214, alpha: 1)
             tableView.reloadData()
 //            let sb = UIStoryboard(name: "ViewController", bundle: nil)
 //            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
@@ -111,7 +121,7 @@ class ViewController: UIViewController, DataBackDelegate {
     }
     
     @IBAction func onCounterButtonPressed() {
-        guard let text = textField.text else { return }
+        guard let text = textField.text, !text.isEmpty else { return }
         ind.showIndicator()
         viewModel.checkAndAddNewCity(name: text) { result in
             if result == LoadingState.success {

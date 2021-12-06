@@ -82,6 +82,9 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
         return welcome
     }
 
+     fun getValueForCurrentCity(value: Welcome) {
+         _currentCity.value = value
+     }
 
     interface EventsListener {
         fun update()
@@ -114,7 +117,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                 error("Epty name field")
             }
             _loading.value = false
-            //callback.invoke(LoadingState.error)
+            callback.invoke(LoadingState.error)
             return
         }
 
@@ -124,7 +127,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                 error("Repeating location")
             }
             _loading.value = false
-            //callback.invoke(LoadingState.error)
+            callback.invoke(LoadingState.error)
             return
         }
 
@@ -133,6 +136,12 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
                 networkService.getDataByCityName(name)
             }.onSuccess { result ->
                 if (result != null) {
+                    realm.getLocationNames().forEach {
+                        if (it == result.name) {
+                            callback.invoke(LoadingState.error)
+                            return@onSuccess
+                        }
+                    }
                     realm.addCityToDB(convertFromWelcomeToRealmClass(result))
                     eventsDispatcher.dispatchEvent {
                         isLoading(false)
@@ -172,7 +181,7 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
              kotlin.runCatching {
                  networkService.getDataByCityName(name)
              }.onSuccess {  result ->
-                 
+
                  val response = networkService.getDataByCityName(name)
                  val model = convertFromWelcomeToRealmClass(response)
                  MainScope().async {
