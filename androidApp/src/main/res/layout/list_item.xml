@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/imageWeather"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="😁"
+        android:textSize="60dp"
+        android:textAlignment="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id='@+id/nameCity'
+            android:text="Moscow"
+            android:textSize="26dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/descText"
+            android:text="Clear"
+            android:layout_marginTop="1dp"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tempText"
+            android:text="Temperature: 22ºC"
+            android:layout_marginTop="1dp"
+            android:textSize="20dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

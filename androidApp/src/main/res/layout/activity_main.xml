@@ -56,12 +56,24 @@
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="87dp"
+            android:layout_marginStart="74dp"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="23dp"
             android:layout_toEndOf="@+id/add"
             android:background="#CF9237"
             app:srcCompat="@drawable/settings" />
+
+        <ImageView
+            android:id="@+id/map"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="127dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="23dp"
+            android:layout_toEndOf="@+id/add"
+            android:background="#CF9237"
+            app:srcCompat="@drawable/map" />
 
 
     </RelativeLayout>

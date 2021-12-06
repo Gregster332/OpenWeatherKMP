@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="350dp"
+    android:layout_gravity="center"
+    android:background="@drawable/corner_radius">
+
+    <ImageView
+        android:id="@+id/sviyaz"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/sviaz"/>
+
+    <TextView
+        android:id="@+id/errorDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/sviyaz"/>
+
+    <TextView
+        android:id="@+id/tapDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tap anywhere for close"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/errorDesc"/>
+
+
+
+</RelativeLayout>
