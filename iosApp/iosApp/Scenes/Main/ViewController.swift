@@ -7,11 +7,11 @@ class ViewController: UIViewController, DataBackDelegate {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
-    @IBOutlet private weak var currentCityView: UIView!
+    //@IBOutlet private weak var currentCityView: UIView!
     @IBOutlet private weak var upperPanel: UIView!
     @IBOutlet private weak var cb: UIView!
     
-    @IBOutlet private weak var topContraintTableView: NSLayoutConstraint!
+   // @IBOutlet private weak var topContraintTableView: NSLayoutConstraint!
     
     //var constraints: [NSLayoutConstraint]? = nil
     
@@ -49,7 +49,7 @@ class ViewController: UIViewController, DataBackDelegate {
         textField.placeholder = "src".localized(language)
         if variant {
             //vkl
-            currentCityView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            //currentCityView.heightAnchor.constraint(equalToConstant: 0).isActive = true
             cb.isHidden = true
             tableView.reloadData()
         } else {
@@ -151,7 +151,7 @@ class ViewController: UIViewController, DataBackDelegate {
     
     @objc private func refreshWeather() {
         ind.showIndicator()
-        currentCityView.setNeedsDisplay()
+        //currentCityView.setNeedsDisplay()
         cb.setNeedsDisplay()
         if viewModel.cities.count != 0 {
             viewModel.refresh {

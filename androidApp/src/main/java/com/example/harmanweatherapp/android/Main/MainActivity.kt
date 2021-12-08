@@ -40,14 +40,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocClient: FusedLocationProviderClient
     private var current = ""
     ///
-    private lateinit var descText: TextView
-    private lateinit var tempText: TextView
+//    private lateinit var descText: TextView
+//    private lateinit var tempText: TextView
     ///
     private lateinit var newDescText: TextView
     private lateinit var newTempText: TextView
 
     private lateinit var dialog: Dialog
-    private lateinit var currentLocView: RelativeLayout
+    //private lateinit var currentLocView: RelativeLayout
     private lateinit var customButton: RelativeLayout
 
 
@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity() {
         //var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
         //needToRefresh.visibility = View.GONE
-        descText = findViewById(R.id.currentDesc)
-        tempText = findViewById(R.id.currentTemp)
-        currentLocView = findViewById(R.id.currentLoc)
+//        descText = findViewById(R.id.currentDesc)
+//        tempText = findViewById(R.id.currentTemp)
+//        currentLocView = findViewById(R.id.currentLoc)
         //
         customButton = findViewById(R.id.customButton)
         newDescText = findViewById(R.id.descInButton)
@@ -202,8 +202,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
             } else {
-                descText.text = "Error"
-                tempText.text = ""
+                newDescText.text = "Error"
+                newTempText.text = ""
             }
         }
     }
