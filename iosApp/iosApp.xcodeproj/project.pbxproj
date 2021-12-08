@@ -33,6 +33,7 @@
 		D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */; };
 		D053EA77274BA15F00D6FA29 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA76274BA15F00D6FA29 /* Date+Extension.swift */; };
 		D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA79274D40C100D6FA29 /* Emojis.swift */; };
+		D06D3F3C275FF9C80084EF98 /* CurrentWeatherCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D3F3B275FF9C80084EF98 /* CurrentWeatherCustomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		D053EA6C2747E3AB00D6FA29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D053EA76274BA15F00D6FA29 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D053EA79274D40C100D6FA29 /* Emojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emojis.swift; sourceTree = "<group>"; };
+		D06D3F3B275FF9C80084EF98 /* CurrentWeatherCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCustomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				D042FF68274F95510023D338 /* OverlayView.xib */,
 				D042FF6C274F98880023D338 /* OverlayView.swift */,
 				D042FF752758EC8C0023D338 /* CurrentLocationView.swift */,
+				D06D3F3B275FF9C80084EF98 /* CurrentWeatherCustomView.swift */,
 			);
 			path = "Helping Views";
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				222F145927466CE600DF8D4A /* AppDelegate.swift in Sources */,
 				D04EF393275A51B3005C9C9D /* SettingsViewController.swift in Sources */,
 				D04EF387275A3907005C9C9D /* MapViewController.swift in Sources */,
+				D06D3F3C275FF9C80084EF98 /* CurrentWeatherCustomView.swift in Sources */,
 				D04EF389275A39C1005C9C9D /* CityAnnotation.swift in Sources */,
 				D04EF396275A588F005C9C9D /* HiddenState.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,

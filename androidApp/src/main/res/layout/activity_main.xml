@@ -63,18 +63,6 @@
             android:background="#CF9237"
             app:srcCompat="@drawable/settings" />
 
-        <ImageView
-            android:id="@+id/map"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="127dp"
-            android:layout_marginTop="29dp"
-            android:layout_marginEnd="23dp"
-            android:layout_toEndOf="@+id/add"
-            android:background="#CF9237"
-            app:srcCompat="@drawable/map" />
-
 
     </RelativeLayout>
 
@@ -121,6 +109,8 @@
             android:textAlignment="center"
             android:textSize="40sp" />
 
+
+
     </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -138,22 +128,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
-            tools:listitem="@layout/list_item" />
+            tools:listitem="@layout/list_item" >
+
+
+        </ListView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/needToRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:text="Need to refresh one more time"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:background="@drawable/corner_radius"
-        android:layout_marginHorizontal="40dp"/>
+    <RelativeLayout
+        android:id="@+id/customButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/corner_radius_main_color">
 
+        <TextView
+            android:id="@+id/mainInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Current city weather"
+            android:textAlignment="center"
+            android:textSize="9sp" />
 
+        <TextView
+            android:id="@+id/descInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mainInButton"
+            android:layout_centerHorizontal="true"
+            android:text="Nizhniy Novgorod, Clear"
+            android:textAlignment="center"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tempInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descInButton"
+            android:text="-26ºC"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>

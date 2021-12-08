@@ -9,6 +9,11 @@ class ViewController: UIViewController, DataBackDelegate {
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var currentCityView: UIView!
     @IBOutlet private weak var upperPanel: UIView!
+    @IBOutlet private weak var cb: UIView!
+    
+    @IBOutlet private weak var topContraintTableView: NSLayoutConstraint!
+    
+    //var constraints: [NSLayoutConstraint]? = nil
     
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
@@ -25,8 +30,14 @@ class ViewController: UIViewController, DataBackDelegate {
         viewModel = SimpleViewModel(eventsDispatcher: .init())
         viewModel.fetchAllCities()
         tableViewRegister()
+        cb.layer.cornerRadius = 10
+        cb.layoutIfNeeded()
         if hide == true {
-            currentCityView.isHidden = true
+            //currentCityView.isHidden = true
+            cb.isHidden = true
+//            tableView.translatesAutoresizingMaskIntoConstraints = true
+//            tableView.topAnchor.constraint(equalTo: upperPanel.bottomAnchor, constant: 0).isActive = true
+            
         }
         textField.placeholder = "src".localized(language)
         textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
@@ -34,28 +45,22 @@ class ViewController: UIViewController, DataBackDelegate {
     }
     
     func signalToHide(_ variant: Bool) {
+        //constraints = currentCityView.constraints
         textField.placeholder = "src".localized(language)
         if variant {
-            currentCityView.isHidden = true
-//            tableView.translatesAutoresizingMaskIntoConstraints = true
-//            tableView.topAnchor.constraint(equalTo: upperPanel.bottomAnchor, constant: 0).isActive = true
+            //vkl
+            currentCityView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            cb.isHidden = true
             tableView.reloadData()
-//            let sb = UIStoryboard(name: "ViewController", bundle: nil)
-//            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-//            let mapVC = sb.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-//            self.navigationController?.tabBarController?.setViewControllers([vc, mapVC], animated: true)
         } else {
-            currentCityView.isHidden = false
-            currentCityView.setNeedsDisplay()
-//            tableView.translatesAutoresizingMaskIntoConstraints = true
-//            tableView.topAnchor.constraint(equalTo: currentCityView.bottomAnchor, constant: 0).isActive = true
-//            tableView.heightAnchor.constraint(equalToConstant: tableView.frame.size.height - currentCityView.frame.size.height).isActive = true
-//            currentCityView.backgroundColor = UIColor(red: 49, green: 182, blue: 214, alpha: 1)
+            //off
+            
+            //currentCityView.setNeedsDisplay()
+            //currentCityView.isHidden = false
+            cb.isHidden = false
+            cb.setNeedsDisplay()
+            
             tableView.reloadData()
-//            let sb = UIStoryboard(name: "ViewController", bundle: nil)
-//            let vc = sb.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-//            let mapVC = sb.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-//            self.navigationController?.tabBarController?.setViewControllers([vc, mapVC], animated: true)
         }
     }
     
@@ -147,6 +152,7 @@ class ViewController: UIViewController, DataBackDelegate {
     @objc private func refreshWeather() {
         ind.showIndicator()
         currentCityView.setNeedsDisplay()
+        cb.setNeedsDisplay()
         if viewModel.cities.count != 0 {
             viewModel.refresh {
                 self.viewModel.fetchAllCities()

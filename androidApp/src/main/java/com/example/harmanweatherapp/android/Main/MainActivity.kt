@@ -39,10 +39,17 @@ class MainActivity : AppCompatActivity() {
     private val viewModel = SimpleViewModel(EventsDispatcher())
     private lateinit var fusedLocClient: FusedLocationProviderClient
     private var current = ""
+    ///
     private lateinit var descText: TextView
     private lateinit var tempText: TextView
+    ///
+    private lateinit var newDescText: TextView
+    private lateinit var newTempText: TextView
+
     private lateinit var dialog: Dialog
     private lateinit var currentLocView: RelativeLayout
+    private lateinit var customButton: RelativeLayout
+
 
     val rotation: RotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
@@ -57,12 +64,16 @@ class MainActivity : AppCompatActivity() {
         //var spinner: ProgressBar = findViewById(R.id.spinnerView)
         dialog = Dialog(this)
         var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
-        var needToRefresh: TextView = findViewById(R.id.needToRefresh)
+        //var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
-        needToRefresh.visibility = View.GONE
+        //needToRefresh.visibility = View.GONE
         descText = findViewById(R.id.currentDesc)
         tempText = findViewById(R.id.currentTemp)
         currentLocView = findViewById(R.id.currentLoc)
+        //
+        customButton = findViewById(R.id.customButton)
+        newDescText = findViewById(R.id.descInButton)
+        newTempText = findViewById(R.id.tempInButton)
 
         reloadData()
         adapter = ListAdapter(this, items)
@@ -71,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
 
-        currentLocView.setOnClickListener {
+        customButton.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("name", viewModel.currentCity.value.name)
             intent.putExtra("desc", viewModel.currentCity.value.weather[0].main)
@@ -185,8 +196,8 @@ class MainActivity : AppCompatActivity() {
             if (location != null) {
                 viewModel.getCurrentUserLocation(location.latitude, location.longitude, callback = { result ->
                     if (result != null && result.name != "Globe") {
-                        descText.text = "${result.name}, ${result.weather[0].main}"
-                        tempText.text = "${(result.main.temp - 273).toInt()}ºC"
+                        newDescText.text = "${result.name}, ${result.weather[0].main}"
+                        newTempText.text = "${(result.main.temp - 273).toInt()}ºC"
                        viewModel.getValueForCurrentCity(result)
                     }
                 })

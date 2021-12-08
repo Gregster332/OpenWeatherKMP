@@ -29,7 +29,7 @@ class DetailViewController: UIViewController {
         backBtn.setTitle("gb".localized(language), for: .normal)
         if welcome != nil {
             cityLabel.text = welcome!.name
-            tempLabel.text = "\("tmp".localized(language)): \(Int(welcome!.temp - 273))ºC"
+            tempLabel.text = "\(Int(welcome!.temp - 273))ºC"
             DescLabel.text = "\("desc".localized(language)): \(welcome!.main.lowercased().localized(language))"
            configureTableView()
         }
