@@ -2,13 +2,17 @@ package com.example.harmanweatherapp.android.Main
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Location
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -21,6 +25,7 @@ import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
 import com.example.harmanweatherapp.android.R
+import com.example.harmanweatherapp.android.Settings.SettingsActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
@@ -29,6 +34,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.coroutineContext
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,10 +51,11 @@ class MainActivity : AppCompatActivity() {
     ///
     private lateinit var newDescText: TextView
     private lateinit var newTempText: TextView
-
+    private lateinit var goBackFromSettings: Button
     private lateinit var dialog: Dialog
     //private lateinit var currentLocView: RelativeLayout
     private lateinit var customButton: RelativeLayout
+    //private var valueHide by Delegates.notNull<Boolean>()
 
 
     val rotation: RotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
@@ -61,16 +68,14 @@ class MainActivity : AppCompatActivity() {
         var editText: EditText = findViewById(R.id.searchview)
         var imageView: ImageView = findViewById(R.id.add)
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
+        var settingsView: ImageView = findViewById(R.id.settings)
+
         //var spinner: ProgressBar = findViewById(R.id.spinnerView)
         dialog = Dialog(this)
         var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
         //var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
-        //needToRefresh.visibility = View.GONE
-//        descText = findViewById(R.id.currentDesc)
-//        tempText = findViewById(R.id.currentTemp)
-//        currentLocView = findViewById(R.id.currentLoc)
-        //
+
         customButton = findViewById(R.id.customButton)
         newDescText = findViewById(R.id.descInButton)
         newTempText = findViewById(R.id.tempInButton)
@@ -124,6 +129,11 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+        settingsView.setOnClickListener {
+           val intent = Intent(this, SettingsActivity::class.java)
+            startActivityForResult(intent, 101)
+        }
+
         imageView.setOnClickListener {
             dialog.setContentView(R.layout.spinner)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -172,9 +182,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 101) {
+//            if (resultCode == 1) {
+//
+//                if (true) {
+//                    customButton.visibility = View.GONE
+//                } else {
+//                    customButton.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+//    }
+
     override fun onStart() {
         super.onStart()
         checkLocationPermission()
+        if (loadData()) {
+            customButton.visibility = View.GONE
+        } else {
+            customButton.visibility = View.VISIBLE
+        }
     }
 
     fun reloadData() {
@@ -206,5 +235,11 @@ class MainActivity : AppCompatActivity() {
                 newTempText.text = ""
             }
         }
+    }
+
+    private fun loadData(): Boolean {
+        val prefs = getSharedPreferences("sp", Context.MODE_PRIVATE)
+        val savedData = prefs.getBoolean("HIDE_KEY", false)
+        return savedData
     }
 }

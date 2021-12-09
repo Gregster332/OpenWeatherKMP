@@ -289,7 +289,7 @@
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAw-tn-b8e">
                                 <rect key="frame" x="0.0" y="826" width="414" height="70"/>
-                                <color key="backgroundColor" red="0.92133218050003052" green="0.52693107125596739" blue="0.5093708719011194" alpha="0.88868480960264906" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.92156862745098034" green="0.52549019607843139" blue="0.50980392156862742" alpha="0.88868480960264906" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Go back">
