@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OverlayView" customModule="iosApp" customModuleProvider="target">
             <connections>
                 <outlet property="imageView" destination="grd-UT-mTh" id="Nr3-fX-MkR"/>
+                <outlet property="internetImageView" destination="F4R-WB-ewK" id="BGn-1V-rzv"/>
                 <outlet property="slideIdicator" destination="Wcl-8f-Hex" id="73t-T3-Qqx"/>
                 <outlet property="subscribeButton" destination="cc3-LE-Jch" id="YOB-SF-OxL"/>
                 <outlet property="view" destination="iN0-l3-epB" id="1mn-Wz-UNj"/>
@@ -51,14 +52,21 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sviaz.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="grd-UT-mTh">
                     <rect key="frame" x="59" y="96" width="287" height="277"/>
                 </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="web.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="F4R-WB-ewK">
+                    <rect key="frame" x="59" y="96" width="287" height="277"/>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="F4R-WB-ewK" secondAttribute="trailing" constant="59" id="7bX-TG-dIy"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cc3-LE-Jch" secondAttribute="bottom" constant="20" id="JL0-8N-84n"/>
+                <constraint firstItem="cc3-LE-Jch" firstAttribute="top" secondItem="F4R-WB-ewK" secondAttribute="bottom" constant="35" id="OB9-eY-Iew"/>
+                <constraint firstItem="F4R-WB-ewK" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="59" id="PHi-Bc-oIy"/>
                 <constraint firstItem="Wcl-8f-Hex" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="TNV-ef-jAu"/>
                 <constraint firstItem="cc3-LE-Jch" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="YV6-U5-kra"/>
                 <constraint firstItem="grd-UT-mTh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="59" id="ZgF-Te-O1a"/>
+                <constraint firstItem="F4R-WB-ewK" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="52" id="f9C-n6-LRT"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="grd-UT-mTh" secondAttribute="trailing" constant="59" id="gJG-Uo-zOk"/>
                 <constraint firstItem="Wcl-8f-Hex" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="ia8-V9-07T"/>
                 <constraint firstItem="cc3-LE-Jch" firstAttribute="top" secondItem="grd-UT-mTh" secondAttribute="bottom" constant="35" id="mCp-bT-mSx"/>
@@ -70,6 +78,7 @@
     </objects>
     <resources>
         <image name="sviaz.jpg" width="800" height="765"/>
+        <image name="web.jpg" width="146.8800048828125" height="146.8800048828125"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

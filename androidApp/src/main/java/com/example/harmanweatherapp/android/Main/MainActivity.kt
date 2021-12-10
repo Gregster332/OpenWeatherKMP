@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.opengl.Visibility
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -18,6 +19,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.harmanweatherapp.Enums.LoadingState
@@ -25,6 +27,7 @@ import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
 import com.example.harmanweatherapp.android.R
+import com.example.harmanweatherapp.android.Services.isOnline
 import com.example.harmanweatherapp.android.Settings.SettingsActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
@@ -55,11 +58,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     //private lateinit var currentLocView: RelativeLayout
     private lateinit var customButton: RelativeLayout
-    //private var valueHide by Delegates.notNull<Boolean>()
+
 
 
     val rotation: RotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -135,27 +139,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         imageView.setOnClickListener {
-            dialog.setContentView(R.layout.spinner)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
-                    viewModel.checkAndAddNewCity(editText.text.toString(), callback = {
-                            if (it == LoadingState.success) {
-                                dialog.hide()
-                                items.clear()
-                                reloadData()
-                                list.adapter = adapter
-                                editText.setText("")
-                            } else {
-                                dialog.hide()
-                                editText.setText("")
-                                dialog.setContentView(R.layout.popup)
-                                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                                dialog.show()
-                            }
+            if (!isOnline(applicationContext)) {
+                dialog.setContentView(R.layout.settings_popup)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
 
-                    })
+            } else {
+                dialog.setContentView(R.layout.spinner)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
+                viewModel.checkAndAddNewCity(editText.text.toString(), callback = {
+                    if (it == LoadingState.success) {
+                        dialog.hide()
+                        items.clear()
+                        reloadData()
+                        list.adapter = adapter
+                        editText.setText("")
+                    } else {
+                        dialog.hide()
+                        editText.setText("")
+                        dialog.setContentView(R.layout.popup)
+                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog.show()
+                    }
 
-                }
+                })
+            }
+        }
 
         deleteAllImageView.setOnClickListener {
             viewModel.realm.deleteAllCities()
@@ -166,43 +176,44 @@ class MainActivity : AppCompatActivity() {
         }
 
         refreshLayout.setOnRefreshListener {
+            if (!isOnline(applicationContext)) {
+                dialog.setContentView(R.layout.settings_popup)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
+                refreshLayout.isRefreshing = false
+            } else {
 //            dialog.setContentView(R.layout.spinner)
 //            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            dialog.show()
-            viewModel.refresh {
-                viewModel.fetchAllCities()
-                items.clear()
-                reloadData()
-                checkLocationPermission()
-                list.adapter = adapter
-                //dialog.hide()
-                refreshLayout.isRefreshing = false
+                viewModel.refresh {
+                    viewModel.fetchAllCities()
+                    items.clear()
+                    reloadData()
+                    checkLocationPermission()
+                    list.adapter = adapter
+                    //dialog.hide()
+                    refreshLayout.isRefreshing = false
+                }
             }
         }
 
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 101) {
-//            if (resultCode == 1) {
-//
-//                if (true) {
-//                    customButton.visibility = View.GONE
-//                } else {
-//                    customButton.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-//    }
-
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
         super.onStart()
-        checkLocationPermission()
-        if (loadData()) {
+        if (!isOnline(applicationContext)) {
             customButton.visibility = View.GONE
+            dialog.setContentView(R.layout.settings_popup)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
         } else {
-            customButton.visibility = View.VISIBLE
+            checkLocationPermission()
+            if (loadData()) {
+                customButton.visibility = View.GONE
+            } else {
+                customButton.visibility = View.VISIBLE
+            }
         }
     }
 

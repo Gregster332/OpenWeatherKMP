@@ -11,10 +11,6 @@ class ViewController: UIViewController, DataBackDelegate {
     @IBOutlet private weak var upperPanel: UIView!
     @IBOutlet private weak var cb: UIView!
     
-   // @IBOutlet private weak var topContraintTableView: NSLayoutConstraint!
-    
-    //var constraints: [NSLayoutConstraint]? = nil
-    
     private let refreshControl = UIRefreshControl()
     let ind = Indicator()
     @AppStorage("hide") var hide = HiddenState.shared.state
@@ -32,7 +28,7 @@ class ViewController: UIViewController, DataBackDelegate {
         tableViewRegister()
         cb.layer.cornerRadius = 10
         cb.layoutIfNeeded()
-        if hide == true {
+        if hide == true || !Reachability.isConnectedToNetwork() {
             //currentCityView.isHidden = true
             cb.isHidden = true
 //            tableView.translatesAutoresizingMaskIntoConstraints = true
@@ -45,18 +41,11 @@ class ViewController: UIViewController, DataBackDelegate {
     }
     
     func signalToHide(_ variant: Bool) {
-        //constraints = currentCityView.constraints
         textField.placeholder = "src".localized(language)
         if variant {
-            //vkl
-            //currentCityView.heightAnchor.constraint(equalToConstant: 0).isActive = true
             cb.isHidden = true
             tableView.reloadData()
         } else {
-            //off
-            
-            //currentCityView.setNeedsDisplay()
-            //currentCityView.isHidden = false
             cb.isHidden = false
             cb.setNeedsDisplay()
             
@@ -81,42 +70,6 @@ class ViewController: UIViewController, DataBackDelegate {
         }
     }
     
-    private func createNeedToRefreshView(deleteViews: Bool) {
-        let refreshView = UIView()
-        refreshView.backgroundColor = UIColor(red: 49/255, green: 182/255, blue: 214/255, alpha: 1)
-        refreshView.layer.cornerRadius = 15
-        refreshView.tag = 100
-        
-        let textRefresh = UILabel()
-        textRefresh.text = "Need to refresh one more time"
-        textRefresh.font = UIFont.systemFont(ofSize: 15)
-        textRefresh.numberOfLines = 0
-        textRefresh.textAlignment = .center
-        textRefresh.textColor = .white
-        refreshView.addSubview(textRefresh)
-        
-        
-        if deleteViews == false {
-            self.navigationController?.view.addSubview(refreshView)
-            refreshView.translatesAutoresizingMaskIntoConstraints = false
-            refreshView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            refreshView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            refreshView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-            refreshView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            textRefresh.translatesAutoresizingMaskIntoConstraints = false
-            textRefresh.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            textRefresh.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            textRefresh.widthAnchor.constraint(equalToConstant: 150).isActive = true
-            textRefresh.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        } else {
-            if let viewWithTag = self.navigationController?.view.viewWithTag(100) {
-                //textRefresh.removeFromSuperview()
-                viewWithTag.removeFromSuperview()
-            }
-        }
-        
-    }
-    
     @IBAction func goToSettings() {
         let sb = UIStoryboard(name: "ViewController", bundle: nil)
         let controller = sb.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
@@ -127,6 +80,9 @@ class ViewController: UIViewController, DataBackDelegate {
     
     @IBAction func onCounterButtonPressed() {
         guard let text = textField.text, !text.isEmpty else { return }
+        if !Reachability.isConnectedToNetwork() {
+            showMiracle()
+        }
         ind.showIndicator()
         viewModel.checkAndAddNewCity(name: text) { result in
             if result == LoadingState.success {
@@ -150,6 +106,11 @@ class ViewController: UIViewController, DataBackDelegate {
     }
     
     @objc private func refreshWeather() {
+        if !Reachability.isConnectedToNetwork() {
+            showMiracle()
+            tableView.refreshControl?.endRefreshing()
+            return
+        }
         ind.showIndicator()
         //currentCityView.setNeedsDisplay()
         cb.setNeedsDisplay()

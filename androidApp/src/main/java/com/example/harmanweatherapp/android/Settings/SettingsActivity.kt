@@ -2,14 +2,11 @@ package com.example.harmanweatherapp.android.Settings
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.example.harmanweatherapp.android.R
-import com.example.harmanweatherapp.android.UserSettings
 
 class SettingsActivity: AppCompatActivity() {
 

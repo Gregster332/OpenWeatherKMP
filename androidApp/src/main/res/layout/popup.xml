@@ -6,7 +6,7 @@
     android:background="@drawable/corner_radius">
 
     <ImageView
-        android:id="@+id/sviyaz"
+        android:id="@+id/imageInPopup"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
@@ -22,7 +22,7 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:layout_below="@id/sviyaz"/>
+        android:layout_below="@id/imageInPopup"/>
 
     <TextView
         android:id="@+id/tapDesc"

@@ -20,6 +20,9 @@ class OverlayView: UIViewController {
     @IBOutlet weak var slideIdicator: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var subscribeButton: UIView!
+    @IBOutlet weak var internetImageView: UIImageView!
+    
+    //var isInternetConnected: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,10 @@ class OverlayView: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideView))
         subscribeButton.addGestureRecognizer(tapGesture)
+        
+        if Reachability.isConnectedToNetwork() {
+            internetImageView.isHidden = true
+       }
         
         slideIdicator.roundCorners(.allCorners, radius: 10)
         imageView.roundCorners(.allCorners, radius: 10)

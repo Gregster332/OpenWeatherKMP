@@ -33,6 +33,8 @@
 		D053EA77274BA15F00D6FA29 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA76274BA15F00D6FA29 /* Date+Extension.swift */; };
 		D053EA7A274D40C100D6FA29 /* Emojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = D053EA79274D40C100D6FA29 /* Emojis.swift */; };
 		D06D3F3C275FF9C80084EF98 /* CurrentWeatherCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D3F3B275FF9C80084EF98 /* CurrentWeatherCustomView.swift */; };
+		D06D3F3E2763F3010084EF98 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D3F3D2763F3010084EF98 /* Reachability.swift */; };
+		D06D3F422763F7230084EF98 /* web.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D06D3F412763F7230084EF98 /* web.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		D053EA76274BA15F00D6FA29 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D053EA79274D40C100D6FA29 /* Emojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emojis.swift; sourceTree = "<group>"; };
 		D06D3F3B275FF9C80084EF98 /* CurrentWeatherCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCustomView.swift; sourceTree = "<group>"; };
+		D06D3F3D2763F3010084EF98 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		D06D3F412763F7230084EF98 /* web.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = web.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				D04EF39D275AAB19005C9C9D /* Localizable.strings */,
 				D042FF6E274F9AFD0023D338 /* sviaz.jpg */,
+				D06D3F412763F7230084EF98 /* web.jpg */,
 				222F145627466CA400DF8D4A /* ViewController.storyboard */,
 				222F145827466CE600DF8D4A /* AppDelegate.swift */,
 				222F145A27466D1100DF8D4A /* SceneDelegate.swift */,
@@ -140,6 +145,7 @@
 				D04EF395275A588F005C9C9D /* HiddenState.swift */,
 				D04EF397275A5A9D005C9C9D /* LocationManager.swift */,
 				D04EF39F275AAB3F005C9C9D /* LocalizationService.swift */,
+				D06D3F3D2763F3010084EF98 /* Reachability.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -306,6 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06D3F422763F7230084EF98 /* web.jpg in Resources */,
 				D04EF39B275AAB19005C9C9D /* Localizable.strings in Resources */,
 				D042FF6F274F9AFD0023D338 /* sviaz.jpg in Resources */,
 				D053EA682747A10500D6FA29 /* CityCell.xib in Resources */,
@@ -360,6 +367,7 @@
 				D06D3F3C275FF9C80084EF98 /* CurrentWeatherCustomView.swift in Sources */,
 				D04EF389275A39C1005C9C9D /* CityAnnotation.swift in Sources */,
 				D04EF396275A588F005C9C9D /* HiddenState.swift in Sources */,
+				D06D3F3E2763F3010084EF98 /* Reachability.swift in Sources */,
 				D053EA6D2747E3AB00D6FA29 /* DetailViewController.swift in Sources */,
 				D053EA672747A10500D6FA29 /* CityCell.swift in Sources */,
 				D042FF71275230400023D338 /* RefreshView.swift in Sources */,
