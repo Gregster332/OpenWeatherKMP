@@ -10,9 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailActivity : AppCompatActivity() {
-
     var welcome: String? = null
-
     val format = SimpleDateFormat("HH:mm", Locale.ROOT)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,10 +49,8 @@ class DetailActivity : AppCompatActivity() {
         max.text = "Temp max: $maxStr ºC"
         min.text = "Temp min: $minStr ºC"
         feelsLike.text = "Feels like: $fl ºC"
-        //val date = Date(sunsetStr!!.toLong())
 
         button.setOnClickListener {
-            //print(date)
             finish()
         }
 

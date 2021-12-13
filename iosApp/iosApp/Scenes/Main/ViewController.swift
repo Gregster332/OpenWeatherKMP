@@ -8,7 +8,6 @@ class ViewController: UIViewController, DataBackDelegate {
 
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var textField: UITextField!
-    //@IBOutlet private weak var currentCityView: UIView!
     @IBOutlet private weak var upperPanel: UIView!
     @IBOutlet private weak var cb: UIView!
     
@@ -23,29 +22,25 @@ class ViewController: UIViewController, DataBackDelegate {
         super.viewDidLoad()
         viewModel = SimpleViewModel(eventsDispatcher: .init())
         viewModel.fetchAllCities()
-        tableViewRegister()
-        cb.layer.cornerRadius = 10
-        cb.layoutIfNeeded()
+        registerViews()
         monitorInternetConnection()
         if hide == true || !Reachability.isConnectedToNetwork() {
-            //currentCityView.isHidden = true
             cb.isHidden = true
-//            tableView.translatesAutoresizingMaskIntoConstraints = true
-//            tableView.topAnchor.constraint(equalTo: upperPanel.bottomAnchor, constant: 0).isActive = true
-            
         }
-        textField.placeholder = "src".localized(language)
-        textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !hide {
-        monitorInternetConnection()
+            monitorInternetConnection()
         } else {
             cb.isHidden = true
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        tabBarItem.title = "cit".localized(language)
     }
     
     
@@ -77,18 +72,20 @@ class ViewController: UIViewController, DataBackDelegate {
         } else {
             cb.isHidden = false
             cb.setNeedsDisplay()
-
             tableView.reloadData()
         }
     }
     
-    private func tableViewRegister() {
+    private func registerViews() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "CityCell", bundle: nil), forCellReuseIdentifier: "CityCell")
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshWeather), for: .valueChanged)
-
+        textField.placeholder = "src".localized(language)
+        textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingDidEndOnExit)
+        cb.layer.cornerRadius = 10
+        cb.layoutIfNeeded()
     }
     
     @objc private func textFieldDidChanged() {
@@ -141,21 +138,25 @@ class ViewController: UIViewController, DataBackDelegate {
             return
         }
         ind.showIndicator()
-        //currentCityView.setNeedsDisplay()
         cb.setNeedsDisplay()
         if viewModel.cities.count != 0 {
             viewModel.refresh {
                 self.viewModel.fetchAllCities()
-                self.update()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
                 DispatchQueue.main.async {
                     self.ind.hideIndicator()
                 }
             }
         } else {
-            update()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
+            }
             ind.hideIndicator()
         }
-        print("Here")
     }
     
     @objc func showMiracle() {
@@ -207,26 +208,3 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-
-extension ViewController: SimpleViewModelEventsListener {
-    func error(message: String) {
-        print("error")
-    }
-    
-    func isLoading(isLoading: Bool) {
-        if isLoading {
-            tableView.refreshControl?.beginRefreshing()
-        } else {
-            tableView.refreshControl?.endRefreshing()
-        }
-    }
-    
-    func update() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing()
-        }
-    }
-    
-    
-}

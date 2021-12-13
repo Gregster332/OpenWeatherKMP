@@ -15,18 +15,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tabBar.items?[0].title = "cit".localized(language)
-        self.tabBar.items?[1].title = "map".localized(language)
     }
-    
-//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//        let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController)!
-//        if selectedIndex == 1 {
-//            self.navigationController?.title = ""
-//            print("h")
-//        }
-//    }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item.title == "Map" {

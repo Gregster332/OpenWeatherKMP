@@ -41,27 +41,19 @@ import kotlin.coroutines.coroutineContext
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
-
-    //var list: ListView? = null
     var items: ArrayList<Welcome> = arrayListOf()
     var adapter: ListAdapter? = null
 
     private val viewModel = SimpleViewModel(EventsDispatcher())
-    private lateinit var fusedLocClient: FusedLocationProviderClient
     private var current = ""
-    ///
-//    private lateinit var descText: TextView
-//    private lateinit var tempText: TextView
-    ///
+
     private lateinit var newDescText: TextView
     private lateinit var newTempText: TextView
     private lateinit var goBackFromSettings: Button
     private lateinit var dialog: Dialog
-    //private lateinit var currentLocView: RelativeLayout
     private lateinit var customButton: RelativeLayout
     private lateinit var cld: NetworkChangeListener
-
-
+    private lateinit var fusedLocClient: FusedLocationProviderClient
 
     val rotation: RotateAnimation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
@@ -76,10 +68,8 @@ class MainActivity : AppCompatActivity() {
         var deleteAllImageView: ImageView = findViewById(R.id.deleteAll)
         var settingsView: ImageView = findViewById(R.id.settings)
 
-        //var spinner: ProgressBar = findViewById(R.id.spinnerView)
         dialog = Dialog(this)
         var refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipe)
-        //var needToRefresh: TextView = findViewById(R.id.needToRefresh)
         dialog.setCanceledOnTouchOutside(true)
 
         customButton = findViewById(R.id.customButton)
@@ -130,7 +120,6 @@ class MainActivity : AppCompatActivity() {
             t.show()
             viewModel.deleteCity(item.name)
             items.removeAt(position)
-            //adapter!!.notifyDataSetChanged()
             list.adapter = adapter
             false
         }
@@ -145,7 +134,6 @@ class MainActivity : AppCompatActivity() {
                 dialog.setContentView(R.layout.settings_popup)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
-
             } else {
                 dialog.setContentView(R.layout.spinner)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -164,7 +152,6 @@ class MainActivity : AppCompatActivity() {
                         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                         dialog.show()
                     }
-
                 })
             }
         }
@@ -174,7 +161,6 @@ class MainActivity : AppCompatActivity() {
             items.clear()
             adapter!!.notifyDataSetChanged()
             list.adapter = adapter
-
         }
 
         refreshLayout.setOnRefreshListener {
@@ -184,16 +170,12 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
                 refreshLayout.isRefreshing = false
             } else {
-//            dialog.setContentView(R.layout.spinner)
-//            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//            dialog.show()
                 viewModel.refresh {
                     viewModel.fetchAllCities()
                     items.clear()
                     reloadData()
                     checkLocationPermission()
                     list.adapter = adapter
-                    //dialog.hide()
                     refreshLayout.isRefreshing = false
                 }
             }
@@ -209,7 +191,6 @@ class MainActivity : AppCompatActivity() {
             customButton.visibility = View.GONE
         } else {
             checkLocationPermission()
-            Toast.makeText(this, loadData().toString(), Toast.LENGTH_SHORT).show()
             if (loadData()) {
                 customButton.visibility = View.GONE
             } else {
@@ -222,7 +203,6 @@ class MainActivity : AppCompatActivity() {
        cld = NetworkChangeListener(application)
         cld.observe(this, { isConnected ->
             if (!isConnected) {
-
                 customButton.visibility = View.GONE
             } else {
                 if (!loadData()) {

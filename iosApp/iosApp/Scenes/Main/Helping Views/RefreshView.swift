@@ -14,8 +14,7 @@ public class Indicator {
     var blurImg = UIImageView()
     var indicator = UIActivityIndicatorView()
 
-    init()
-    {
+    init() {
         blurImg.frame = UIScreen.main.bounds
         blurImg.backgroundColor = UIColor.black
         blurImg.isUserInteractionEnabled = true
@@ -26,19 +25,16 @@ public class Indicator {
         indicator.color = UIColor(red: 49, green: 182, blue: 214, alpha: 1)
     }
 
-    func showIndicator(){
+    func showIndicator() {
         DispatchQueue.main.async( execute: {
-
             UIApplication.shared.keyWindow?.addSubview(self.blurImg)
             UIApplication.shared.keyWindow?.addSubview(self.indicator)
         })
     }
-    func hideIndicator(){
-
-        DispatchQueue.main.async( execute:
-            {
-                self.blurImg.removeFromSuperview()
-                self.indicator.removeFromSuperview()
+    func hideIndicator() {
+        DispatchQueue.main.async( execute: {
+            self.blurImg.removeFromSuperview()
+            self.indicator.removeFromSuperview()
         })
     }
 }

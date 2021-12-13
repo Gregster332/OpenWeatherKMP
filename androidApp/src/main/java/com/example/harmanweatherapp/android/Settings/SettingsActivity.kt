@@ -35,8 +35,6 @@ class SettingsActivity: AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-//            intent.putExtra("isHide", hide)
-//            setResult(1, intent)
             finish()
         }
     }

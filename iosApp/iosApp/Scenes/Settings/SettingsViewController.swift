@@ -29,7 +29,6 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +45,6 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func changeLanguage() {
-        //backButton.setTitle("gb".localized(language), for: .normal)
         switch langSegment.selectedSegmentIndex {
         case 0:
             LocalizationService.shared.language = .english_us
@@ -60,7 +58,7 @@ class SettingsViewController: UIViewController {
             backButton.setTitle("gb".localized(language), for: .normal)
             hideLabel.text = "hdl".localized(language)
             langLabel.text = "cl".localized(language)
-        default: print("error")
+        default: return
         }
     }
     
@@ -87,7 +85,6 @@ extension UIView {
         layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowRadius = 20
-
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
       }
 }

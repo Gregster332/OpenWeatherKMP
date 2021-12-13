@@ -21,7 +21,6 @@ class CurrentWeatherCustomView: UIView {
     private var viewModel: SimpleViewModel!
     var city: Welcome!
     var ind = Indicator()
-   // @AppStorage("language") var language = LocalizationService.shared.language
     @AppStorage("language") var language = LocalizationService.shared.language
 
     override func draw(_ rect: CGRect) {
@@ -31,9 +30,7 @@ class CurrentWeatherCustomView: UIView {
         self.layer.cornerRadius = 20
         self.layer.masksToBounds = true
         
-        //self.backgroundColor = .red
         viewModel = SimpleViewModel(eventsDispatcher: .init())
-        //ind.showIndicator()
         if Reachability.isConnectedToNetwork() {
             viewModel.getCurrentUserLocation(lat: locationManager.location?.coordinate.latitude ?? 0, lon: locationManager.location?.coordinate.longitude ?? 0) { result in
                 self.city = result

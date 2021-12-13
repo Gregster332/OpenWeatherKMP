@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.collect
 
 interface SimpleViewModeling {
     var cities: MutableList<RealmCityModel>
-    //fun checkAndAddNewCity(name: String)
     fun checkAndAddNewCity(name: String, callback: (LoadingState) -> Unit)
     fun deleteCity(name: String)
     fun refresh(callback: () -> Unit)
@@ -38,18 +37,6 @@ class SimpleViewModel(val eventsDispatcher: EventsDispatcher<EventsListener>): S
 
     val realm = RealmService.instance
     val networkService = NetworkService.instance
-
-//    init {
-//        viewModelScope.async {
-//            realm.realm.objects(RealmCityModel::class).observe().collect {
-//                cities = it.toMutableList()
-//                eventsDispatcher.dispatchEvent {
-//                    isLoading(false)
-//                    update()
-//                }
-//            }
-//        }
-//    }
 
     fun fetchAllCities() {
         cities = realm.fetchAllCities().sortedBy { it.name }.toMutableList()

@@ -20,8 +20,6 @@ class NetworkService {
 
     private val httpClient = HttpClient()
 
-
-
     suspend fun getDataByCityName(cityName: String): Welcome  {
         val url =
             "https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=c302a638f8f46f6a557e143a3a483647"

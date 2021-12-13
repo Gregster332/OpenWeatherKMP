@@ -22,8 +22,6 @@ class OverlayView: UIViewController {
     @IBOutlet weak var subscribeButton: UIView!
     @IBOutlet weak var internetImageView: UIImageView!
     
-    //var isInternetConnected: Bool = true
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction))
@@ -34,8 +32,7 @@ class OverlayView: UIViewController {
         
         if Reachability.isConnectedToNetwork() {
             internetImageView.isHidden = true
-       }
-        
+        }
         slideIdicator.roundCorners(.allCorners, radius: 10)
         imageView.roundCorners(.allCorners, radius: 10)
         subscribeButton.roundCorners(.allCorners, radius: 10)

@@ -20,7 +20,6 @@ class MapViewController: UIViewController {
     
     @AppStorage("language") var language = LocalizationService.shared.language
     
-    //var viewModel: SimpleViewModel!
     var cities: [RealmCityModel] = []
     var ind = Indicator()
     var viewModel = SimpleViewModel(eventsDispatcher: .init())
@@ -32,7 +31,6 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("hi")
         if Reachability.isConnectedToNetwork() {
         removeAllAnnotations()
         cities = viewModel.realm.fetchAllCities()
@@ -48,6 +46,11 @@ class MapViewController: UIViewController {
         }
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        tabBarItem.title = "map".localized(language)
+    }
+    
     private func removeAllAnnotations() {
         self.mapView.removeAnnotations(self.mapView.annotations)
     }
@@ -56,9 +59,6 @@ class MapViewController: UIViewController {
         mapView.mapType = .satellite
         mapView.showsUserLocation = true
         mapView.showsBuildings = true
-//        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(addNewPin))
-//        mapView.addGestureRecognizer(tapGesture)
-        
     }
     
     private func addCustomPin(_ title: String, _ subtitle: String, _ coord: CLLocationCoordinate2D, delete: Bool) {

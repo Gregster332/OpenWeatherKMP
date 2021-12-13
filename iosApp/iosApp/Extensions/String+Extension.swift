@@ -9,7 +9,6 @@
 import Foundation
 
 extension String {
-
     func localized(_ language: Language) -> String {
         let path = Bundle.main.path(forResource: language.rawValue, ofType: "lproj")
         let bundle: Bundle
