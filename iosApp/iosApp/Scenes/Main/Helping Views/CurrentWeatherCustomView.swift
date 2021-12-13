@@ -34,17 +34,19 @@ class CurrentWeatherCustomView: UIView {
         //self.backgroundColor = .red
         viewModel = SimpleViewModel(eventsDispatcher: .init())
         //ind.showIndicator()
-        viewModel.getCurrentUserLocation(lat: locationManager.location?.coordinate.latitude ?? 0, lon: locationManager.location?.coordinate.longitude ?? 0) { result in
-            self.city = result
-            if result.name != "Globe" {
-                self.cityLabel.text = "cli".localized(self.language)
-                self.descLabel.text = "\(result.name), \(result.weather.first!.main.lowercased().localized(self.language))"
-                self.tempLabel.text = "\(Int(result.main.temp - 273))ºC"
-                self.setNeedsDisplay()
-            } else {
-                self.cityLabel.text = "cli".localized(self.language)
-                self.descLabel.text = "ntr".localized(self.language)
-                self.tempLabel.text = ""
+        if Reachability.isConnectedToNetwork() {
+            viewModel.getCurrentUserLocation(lat: locationManager.location?.coordinate.latitude ?? 0, lon: locationManager.location?.coordinate.longitude ?? 0) { result in
+                self.city = result
+                if result.name != "Globe" {
+                    self.cityLabel.text = "cli".localized(self.language)
+                    self.descLabel.text = "\(result.name), \(result.weather.first!.main.lowercased().localized(self.language))"
+                    self.tempLabel.text = "\(Int(result.main.temp - 273))ºC"
+                    self.setNeedsDisplay()
+                } else {
+                    self.cityLabel.text = "cli".localized(self.language)
+                    self.descLabel.text = "ntr".localized(self.language)
+                    self.tempLabel.text = ""
+                }
             }
         }
     }

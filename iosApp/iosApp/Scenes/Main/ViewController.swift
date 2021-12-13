@@ -2,6 +2,7 @@ import UIKit
 import MultiPlatformLibrary
 import MultiPlatformLibraryMvvm
 import SwiftUI
+import Network
 
 class ViewController: UIViewController, DataBackDelegate {
 
@@ -18,9 +19,6 @@ class ViewController: UIViewController, DataBackDelegate {
     
     var viewModel: SimpleViewModel!
     
-    var hideLocationView = false
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = SimpleViewModel(eventsDispatcher: .init())
@@ -28,6 +26,7 @@ class ViewController: UIViewController, DataBackDelegate {
         tableViewRegister()
         cb.layer.cornerRadius = 10
         cb.layoutIfNeeded()
+        monitorInternetConnection()
         if hide == true || !Reachability.isConnectedToNetwork() {
             //currentCityView.isHidden = true
             cb.isHidden = true
@@ -40,6 +39,36 @@ class ViewController: UIViewController, DataBackDelegate {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !hide {
+        monitorInternetConnection()
+        } else {
+            cb.isHidden = true
+        }
+    }
+    
+    
+    func monitorInternetConnection() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                if !self.hide {
+                    DispatchQueue.main.async {
+                        self.cb.isHidden = false
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.cb.isHidden = true
+                }
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+    }
+    
     func signalToHide(_ variant: Bool) {
         textField.placeholder = "src".localized(language)
         if variant {
@@ -48,7 +77,7 @@ class ViewController: UIViewController, DataBackDelegate {
         } else {
             cb.isHidden = false
             cb.setNeedsDisplay()
-            
+
             tableView.reloadData()
         }
     }

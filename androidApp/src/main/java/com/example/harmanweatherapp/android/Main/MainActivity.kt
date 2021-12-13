@@ -27,6 +27,7 @@ import com.example.harmanweatherapp.Models.*
 import com.example.harmanweatherapp.ViewModels.SimpleViewModel
 import com.example.harmanweatherapp.android.Detail.DetailActivity
 import com.example.harmanweatherapp.android.R
+import com.example.harmanweatherapp.android.Services.NetworkChangeListener
 import com.example.harmanweatherapp.android.Services.isOnline
 import com.example.harmanweatherapp.android.Settings.SettingsActivity
 import com.google.android.gms.location.*
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     //private lateinit var currentLocView: RelativeLayout
     private lateinit var customButton: RelativeLayout
+    private lateinit var cld: NetworkChangeListener
 
 
 
@@ -202,19 +204,32 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
         super.onStart()
+        checkInternetConnection()
         if (!isOnline(applicationContext)) {
             customButton.visibility = View.GONE
-            dialog.setContentView(R.layout.settings_popup)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
         } else {
             checkLocationPermission()
+            Toast.makeText(this, loadData().toString(), Toast.LENGTH_SHORT).show()
             if (loadData()) {
                 customButton.visibility = View.GONE
             } else {
                 customButton.visibility = View.VISIBLE
             }
         }
+    }
+
+    fun checkInternetConnection() {
+       cld = NetworkChangeListener(application)
+        cld.observe(this, { isConnected ->
+            if (!isConnected) {
+
+                customButton.visibility = View.GONE
+            } else {
+                if (!loadData()) {
+                    customButton.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     fun reloadData() {
