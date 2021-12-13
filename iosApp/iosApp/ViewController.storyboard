@@ -17,6 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="web.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="F38-IO-iaH">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="buu-vC-Qw9">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </mapView>
@@ -25,14 +28,19 @@
                         <color key="backgroundColor" red="0.19215686269999999" green="0.71372549019999998" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="buu-vC-Qw9" firstAttribute="trailing" secondItem="CAB-9K-grT" secondAttribute="trailing" id="Dki-Dk-gY1"/>
+                            <constraint firstAttribute="trailing" secondItem="F38-IO-iaH" secondAttribute="trailing" id="Ena-yH-qCw"/>
                             <constraint firstItem="buu-vC-Qw9" firstAttribute="leading" secondItem="CAB-9K-grT" secondAttribute="leading" id="OjV-sC-uUE"/>
                             <constraint firstItem="buu-vC-Qw9" firstAttribute="top" secondItem="CAB-9K-grT" secondAttribute="top" id="Wto-qh-xeE"/>
+                            <constraint firstAttribute="bottom" secondItem="F38-IO-iaH" secondAttribute="bottom" constant="83" id="cmD-ex-WgT"/>
+                            <constraint firstItem="F38-IO-iaH" firstAttribute="leading" secondItem="CAB-9K-grT" secondAttribute="leading" id="eTS-mr-qxH"/>
+                            <constraint firstItem="F38-IO-iaH" firstAttribute="top" secondItem="CAB-9K-grT" secondAttribute="top" id="ydg-uY-Vle"/>
                             <constraint firstItem="buu-vC-Qw9" firstAttribute="bottom" secondItem="sAC-iO-Hex" secondAttribute="bottom" id="zhO-uS-nDc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map.fill" catalog="system" id="ANK-bg-lRu"/>
                     <navigationItem key="navigationItem" id="YoQ-19-ALp"/>
                     <connections>
+                        <outlet property="imageView" destination="F38-IO-iaH" id="F1H-dB-1SJ"/>
                         <outlet property="mapView" destination="buu-vC-Qw9" id="hmT-HP-fFa"/>
                     </connections>
                 </viewController>
@@ -380,7 +388,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.19215686269999999" green="0.71372549019999998" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.19215686269999999" green="0.71372549019999998" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" red="0.81176470590000005" green="0.57254901960000004" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBar>
                     <connections>
@@ -521,6 +529,7 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="trash" catalog="system" width="121" height="128"/>
+        <image name="web.jpg" width="146.8800048828125" height="146.8800048828125"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

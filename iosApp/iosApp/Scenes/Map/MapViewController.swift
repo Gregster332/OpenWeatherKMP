@@ -11,10 +11,12 @@ import MapKit
 import MultiPlatformLibrary
 import MultiPlatformLibraryMvvm
 import SwiftUI
+import Network
 
 class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var imageView: UIImageView!
     
     @AppStorage("language") var language = LocalizationService.shared.language
     
@@ -25,14 +27,13 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        monitorInternetConnection()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("hi")
-        //ind.showIndicator()
+        if Reachability.isConnectedToNetwork() {
         removeAllAnnotations()
         cities = viewModel.realm.fetchAllCities()
         configureMapView()
@@ -42,7 +43,9 @@ class MapViewController: UIViewController {
                          CLLocationCoordinate2D(latitude: cities[city].lat,
                                                 longitude: cities[city].lon), delete: false)
         }
-        //ind.hideIndicator()
+        } else {
+            mapView.isHidden = true
+        }
     }
     
     private func removeAllAnnotations() {
@@ -75,6 +78,24 @@ class MapViewController: UIViewController {
     @objc private func addNewPin(name: String = "Moscow") {
         ind.showIndicator()
        //coming soon!
+    }
+    
+    func monitorInternetConnection() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                    DispatchQueue.main.async {
+                        self.mapView.isHidden = false
+                    }
+            } else {
+                DispatchQueue.main.async {
+                    self.mapView.isHidden = true
+                }
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
 }
