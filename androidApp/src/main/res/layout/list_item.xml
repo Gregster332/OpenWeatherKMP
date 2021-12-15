@@ -15,7 +15,7 @@
         android:textAlignment="center"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:orientation="vertical">
@@ -36,13 +36,34 @@
             android:layout_marginTop="1dp"
             android:textSize="20dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tempText"
-            android:text="Temperature: 22ºC"
-            android:layout_marginTop="1dp"
-            android:textSize="20dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempTextString"
+                android:text="@string/label_main_temperature"
+                android:layout_marginTop="0dp"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tempText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@+id/tempTextString"
+                android:text="22ºC"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+
+
 
 
     </LinearLayout>

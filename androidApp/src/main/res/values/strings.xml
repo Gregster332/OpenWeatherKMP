@@ -1,1 +1,32 @@
-<resources></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_cities">Cities</string>
+    <string name="label_main_temperature">Temperature</string>
+    <string name="text_field_main_text">City name</string>
+    <string name="clouds">Clouds</string>
+    <string name="clear">Clear</string>
+    <string name="mist">Mist</string>
+    <string name="smoke">Smoke</string>
+    <string name="haze">Haze</string>
+    <string name="dust">Dust</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="fog">Fog</string>
+    <string name="sand">Sand</string>
+    <string name="ash">Ash</string>
+    <string name="squall">Squall</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="tornado">Tornado</string>
+    <string name="snow">Snow</string>
+    <string name="rain">Rain</string>
+    <string name="back">Back</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="t_mn">Temp min</string>
+    <string name="t_mx">Temp max</string>
+    <string name="sset">Sunset</string>
+    <string name="sise">Sunrise</string>
+    <string name="fl">Feels like</string>
+    <string name="error">Error</string>
+    <string name="tap_anwr">Tap anywhere for close</string>
+    <string name="cw">Current weather</string>
+</resources>

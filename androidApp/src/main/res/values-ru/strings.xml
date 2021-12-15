@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_cities">Список городов</string>
+    <string name="label_main_temperature">Температура</string>
+    <string name="text_field_main_text">Город</string>
+    <string name="clouds">Облачно</string>
+    <string name="clear">Чисто</string>
+    <string name="mist">Пыль</string>
+    <string name="smoke">Смог</string>
+    <string name="haze">Туман</string>
+    <string name="dust">Пыль</string>
+    <string name="thunderstorm">Гроза</string>
+    <string name="fog">Туман</string>
+    <string name="sand">Песчаный ветер</string>
+    <string name="ash">Пепел</string>
+    <string name="squall">Шквал</string>
+    <string name="drizzle">Морось</string>
+    <string name="tornado">Торнадо</string>
+    <string name="snow">Снег</string>
+    <string name="rain">Дождь</string>
+    <string name="back">Назад</string>
+    <string name="pressure">Давление</string>
+    <string name="humidity">Влажность</string>
+    <string name="t_mn">Мин темп</string>
+    <string name="t_mx">Макс темп</string>
+    <string name="sset">Закат</string>
+    <string name="sise">Восход</string>
+    <string name="fl">Ощущается как</string>
+    <string name="error">Ошибка</string>
+    <string name="tap_anwr">Нажмите вне поля чтобы закрыть</string>
+    <string name="cw">Текущая погода</string>
+</resources>

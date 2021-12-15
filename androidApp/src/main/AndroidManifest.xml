@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Main.MainActivity"
+            android:label="@string/label_cities"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -23,7 +23,7 @@
             android:layout_marginTop="24dp"
             android:background="#FFFFFF"
             android:ems="10"
-            android:hint="City name"
+            android:hint="@string/text_field_main_text"
             android:minHeight="48dp" />
 
         <ImageView
@@ -105,7 +105,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Current city weather"
+            android:text="@string/cw"
+            android:textAlignment="center"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/descInButtonCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainInButton"
+            android:layout_centerHorizontal="true"
+            android:text=""
             android:textAlignment="center"
             android:textSize="9sp" />
 
@@ -113,9 +123,9 @@
             android:id="@+id/descInButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mainInButton"
+            android:layout_below="@+id/descInButtonCity"
             android:layout_centerHorizontal="true"
-            android:text="Nizhniy Novgorod, Clear"
+            android:text="Clear"
             android:textAlignment="center"
             android:textSize="9sp" />
 
@@ -124,11 +134,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/descInButton"
-            android:text="-26ºC"
-            android:layout_marginTop="5dp"
-            android:textAlignment="center"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="5dp"
+            android:text="-26ºC"
+            android:textAlignment="center" />
 
     </RelativeLayout>
 

@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private var current = ""
 
     private lateinit var newDescText: TextView
+    private lateinit var newDescCityText: TextView
     private lateinit var newTempText: TextView
     private lateinit var goBackFromSettings: Button
     private lateinit var dialog: Dialog
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         customButton = findViewById(R.id.customButton)
         newDescText = findViewById(R.id.descInButton)
+        newDescCityText = findViewById(R.id.descInButtonCity)
         newTempText = findViewById(R.id.tempInButton)
 
         reloadData()
@@ -231,13 +233,14 @@ class MainActivity : AppCompatActivity() {
             if (location != null) {
                 viewModel.getCurrentUserLocation(location.latitude, location.longitude, callback = { result ->
                     if (result != null && result.name != "Globe") {
-                        newDescText.text = "${result.name}, ${result.weather[0].main}"
+                        newDescCityText.text = "${result.name}"
+                        newDescText.text = "${result.weather[0].main}"
                         newTempText.text = "${(result.main.temp - 273).toInt()}ºC"
                        viewModel.getValueForCurrentCity(result)
                     }
                 })
             } else {
-                newDescText.text = "Error"
+                newDescText.setText(R.string.error)
                 newTempText.text = ""
             }
         }
