@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val ktorVersion = "1.6.0"
@@ -9,6 +10,7 @@ plugins {
     id("com.android.library")
     kotlin("plugin.serialization") version "1.5.31"
     id("io.realm.kotlin") version "0.7.0"
+    jacoco
 }
 
 version = "1.0"
@@ -51,6 +53,10 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("io.mockk:mockk-common:1.12.1")
+
+                //implementation("io.mockative:mockative:1.1.2")
+                //implementation("io.mockative:mockative-processor:1.1.2")
             }
         }
         val androidMain by getting {
@@ -69,6 +75,10 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
+                //implementation("org.junit.jupiter:junit-jupiter:5.8.2")
+                implementation("io.mockk:mockk:1.12.1")
+//                implementation("junit:junit:4.13.2")
+
             }
         }
         val iosMain by getting {
@@ -99,4 +109,72 @@ android {
         minSdkVersion(21)
         targetSdkVersion(31)
     }
+}
+
+
+
+//android {
+//    unitTestVariants.all {
+//        if (it.name == "testDebugUnitTest") {
+//            extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+//                isEnabled = true
+//                binaryReportFile.set(file("$buildDir/custom/debug-report.bin"))
+//                includes = listOf("com.example.*")
+//                excludes = listOf("com.example.subpackage.*")
+//            }
+//        }
+//    }
+//}
+jacoco {
+    toolVersion = "0.8.6"
+}
+
+val jacocoTestReport by tasks.creating(JacocoReport::class.java) {
+    reports {
+        xml.isEnabled = true
+        csv.isEnabled = false
+        html.isEnabled = true
+    }
+}
+
+tasks.withType<Test> {
+    finalizedBy(jacocoTestReport)
+}
+
+//tasks {
+//    named("allTests") {
+//        finalizedBy(jacocoTestReport)
+//    }
+//    withType<JacocoReport> {
+//        dependsOn("allTests")
+//
+//        classDirectories.from(buildDir.resolve("classes/kotlin/jvm").canonicalFile.walkBottomUp().toSet())
+//        sourceDirectories.from("commonMain/src", "androidMain/src")
+//
+//        executionData.setFrom(buildDir.resolve("jacoco/testDebugUnitTest.exec"))
+//        reports {
+//            xml.required.set(true)
+//            html.required.set(true)
+//        }
+//    }
+//}
+
+val jacocoTestCoverageVerification by tasks.creating(JacocoCoverageVerification::class.java) {
+    dependsOn(jacocoTestReport)
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.8".toBigDecimal()
+            }
+        }
+    }
+}
+
+val testCoverage by tasks.registering {
+    group = "verification"
+    description = "Runs the unit tests with coverage."
+
+    dependsOn("test", jacocoTestReport, jacocoTestCoverageVerification)
+    tasks["jacocoTestReport"].mustRunAfter("test")
+    tasks["jacocoTestCoverageVerification"].mustRunAfter("jacocoTestReport")
 }
