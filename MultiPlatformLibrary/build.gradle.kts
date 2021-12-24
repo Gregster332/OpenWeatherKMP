@@ -46,15 +46,20 @@ kotlin {
                 implementation(
                     "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion-native-mt")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-cio:1.6.0")
                 implementation("io.realm.kotlin:library-base:0.7.0")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
+                implementation("junit:junit:4.13.2")
                 implementation("io.mockk:mockk-common:1.12.1")
-
+                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 //implementation("io.mockative:mockative:1.1.2")
                 //implementation("io.mockative:mockative-processor:1.1.2")
             }
@@ -111,25 +116,21 @@ android {
     }
 }
 
-
-
-//android {
-//    unitTestVariants.all {
-//        if (it.name == "testDebugUnitTest") {
-//            extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
-//                isEnabled = true
-//                binaryReportFile.set(file("$buildDir/custom/debug-report.bin"))
-//                includes = listOf("com.example.*")
-//                excludes = listOf("com.example.subpackage.*")
-//            }
-//        }
-//    }
-//}
 jacoco {
     toolVersion = "0.8.6"
 }
 
 val jacocoTestReport by tasks.creating(JacocoReport::class.java) {
+    val coverageSourceDirs = arrayOf(
+        "src/commonMain"
+    )
+    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+        .walkBottomUp()
+        .toSet()
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+    executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
     reports {
         xml.isEnabled = true
         csv.isEnabled = false
@@ -141,23 +142,6 @@ tasks.withType<Test> {
     finalizedBy(jacocoTestReport)
 }
 
-//tasks {
-//    named("allTests") {
-//        finalizedBy(jacocoTestReport)
-//    }
-//    withType<JacocoReport> {
-//        dependsOn("allTests")
-//
-//        classDirectories.from(buildDir.resolve("classes/kotlin/jvm").canonicalFile.walkBottomUp().toSet())
-//        sourceDirectories.from("commonMain/src", "androidMain/src")
-//
-//        executionData.setFrom(buildDir.resolve("jacoco/testDebugUnitTest.exec"))
-//        reports {
-//            xml.required.set(true)
-//            html.required.set(true)
-//        }
-//    }
-//}
 
 val jacocoTestCoverageVerification by tasks.creating(JacocoCoverageVerification::class.java) {
     dependsOn(jacocoTestReport)

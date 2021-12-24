@@ -201,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun checkInternetConnection() {
+    private fun checkInternetConnection() {
        cld = NetworkChangeListener(application)
         cld.observe(this, { isConnected ->
             if (!isConnected) {
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun reloadData() {
+    private fun reloadData() {
         viewModel.fetchAllCities()
         var list = viewModel.cities
         list.forEach {
